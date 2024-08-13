@@ -6,23 +6,27 @@ import SignUp from "./Pages/SignUpPage/SignUp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductPage from "./Componetns/ProductPage";
+import Cart from "./Pages/CartPage/Cart";
+import UserContextProvider from "./Context/UserContextProvider";
 
 function App() {
   return (
-    <Router>
-      <div>
-        <ToastContainer />
-        <Routes>
-          <Route path="/" element={<Home />} />
+    <UserContextProvider>
+      <Router>
+        <div>
+          <ToastContainer />
+          <Routes>
+            <Route path="/" element={<Home />} />
 
-          <Route path="/product" element={<ProductPage />} />
-          <Route path="/cart" element={<Cart />} />
+            <Route path="/product" element={<ProductPage />} />
+            <Route path="/cart" element={<Cart />} />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/signUp" element={<SignUp />} />
-        </Routes>
-      </div>
-    </Router>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signUp" element={<SignUp />} />
+          </Routes>
+        </div>
+      </Router>
+    </UserContextProvider>
   );
 }
 

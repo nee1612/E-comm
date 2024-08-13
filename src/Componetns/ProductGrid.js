@@ -99,7 +99,7 @@ const ProductGrid = () => {
                   </div>
                 </div>
                 <button className="w-full mt-4 bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800">
-                  Add to Cart
+                  View Product
                 </button>
               </div>
             );
