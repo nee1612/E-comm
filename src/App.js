@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProductPage from "./Componetns/ProductPage";
 import Cart from "./Pages/CartPage/Cart";
 import UserContextProvider from "./Context/UserContextProvider";
+import Shipping from "./Pages/ShipingPage/Shipping";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
 
             <Route path="/product" element={<ProductPage />} />
             <Route path="/cart" element={<Cart />} />
-
+            <Route path="/shipping" element={<Shipping />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signUp" element={<SignUp />} />
           </Routes>

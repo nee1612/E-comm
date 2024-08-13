@@ -16,6 +16,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const userCred = getFirestore(SignUp);
-export const cartItems = getFirestore();
+export const userCartItems = getFirestore();
 export const googleProvider = new GoogleAuthProvider();
 // export const blogData = getFirestore();

@@ -24,26 +24,26 @@ function Nav() {
   return (
     <nav className="bg-white shadow-md py-4 px-8 flex justify-between items-center font-raleway sticky top-0 z-50">
       <div className="text-2xl font-bold">
-        <a href="#">
+        <a href="/">
           <img src={Logo} alt="Krist" className="h-8" />
         </a>
       </div>
 
       <div className="flex space-x-8 font-semibold">
-        <a href="#" className="text-sm text-gray-700 hover:text-black">
+        <a href="/" className="text-sm text-gray-700 hover:text-black">
           Home
         </a>
-        <a href="#" className="text-sm text-gray-700 hover:text-black">
+        <a href="/" className="text-sm text-gray-700 hover:text-black">
           Shop
         </a>
 
-        <a href="#" className="text-sm text-gray-700 hover:text-black">
+        <a href="/" className="text-sm text-gray-700 hover:text-black">
           Our Story
         </a>
-        <a href="#" className="text-sm text-gray-700 hover:text-black">
+        <a href="/" className="text-sm text-gray-700 hover:text-black">
           Blog
         </a>
-        <a href="#" className="text-sm text-gray-700 hover:text-black">
+        <a href="/" className="text-sm text-gray-700 hover:text-black">
           Contact Us
         </a>
       </div>
@@ -82,7 +82,7 @@ function Nav() {
             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
           </svg>
         </a>
-        <a href="#" className="text-gray-700 hover:text-black">
+        <a href="/cart" className="text-gray-700 hover:text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

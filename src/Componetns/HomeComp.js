@@ -1,6 +1,6 @@
 import React from "react";
 
-import backgrounImg2 from "../assets/bgg.png";
+import backgrounImg3 from "../assets/bgg.png";
 
 function HomeComp() {
   return (
@@ -29,12 +29,12 @@ function HomeComp() {
 
           <div className="relative w-full max-w-[50%]">
             <img
-              src={backgrounImg2}
+              src={backgrounImg3}
               alt="Women's Collection"
               className="object-cover w-full h-auto "
             />
             <div
-              className="absolute -z-10 top-[1.6rem] right-[6.3rem] p-4 border-gray-400 border-[10px] transform rotate-6  pointer-events-none"
+              className="absolute  top-[1.6rem] right-[6.3rem] p-4 border-gray-400 border-[10px] transform rotate-6  pointer-events-none"
               style={{
                 width: "calc(100% - 12rem)",
                 height: "calc(100% - 4rem)",

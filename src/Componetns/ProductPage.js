@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import img from "../assets/Rectangle 3463273.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import InstagramStories from "./InstagramStories";
 import Footer from "./Footer";
@@ -10,12 +9,14 @@ import { IoIosRemove } from "react-icons/io";
 import { toast } from "react-toastify";
 import { collection } from "firebase/firestore";
 import { addDoc } from "firebase/firestore";
-import { cartItems } from "../Config/firebase";
+import { userCartItems } from "../Config/firebase";
 import UserContext from "../Context/UserContext";
+import Lottie from "lottie-react";
+import cartLoader from "../assets/Lottie/cartLoader.json";
 
 const ProductPage = () => {
   const { userDetails } = useContext(UserContext);
-  console.log(userDetails.uid);
+
   const navigate = useNavigate();
   const location = useLocation();
   const prodDetail = location.state;
@@ -24,7 +25,8 @@ const ProductPage = () => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [activeTab, setActiveTab] = useState("Descriptions");
   const [cart, setCart] = useState([]);
-  const cartRef = collection(cartItems, "cartItems");
+  const cartRef = collection(userCartItems, "cartItems");
+  const [loading, setLoading] = useState(false);
 
   const increaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -55,6 +57,7 @@ const ProductPage = () => {
 
     setCart((prevCart) => [...prevCart, cartItem]);
     try {
+      setLoading(true);
       await addDoc(cartRef, {
         title: prodDetail.title,
         quantity: quantity,
@@ -71,7 +74,7 @@ const ProductPage = () => {
         bodyClassName: "customToast",
       });
     }
-
+    setLoading(false);
     toast.success("Item Added to cart", {
       position: "top-center",
       className: "custom-toast-success",
@@ -311,7 +314,12 @@ const ProductPage = () => {
                     className="ml-4 px-8 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors duration-300"
                     onClick={addToCart}
                   >
-                    Add to Cart
+                    {loading ? (
+                      <Lottie className="w-6 " animationData={cartLoader} />
+                    ) : (
+                      "Add to Cart"
+                    )}
+                    {/* Add to Cart */}
                   </button>
                   <button className="ml-4 px-4 py-2 border rounded-lg hover:bg-gray-200 transition-colors duration-300">
                     <IoMdHeartEmpty size={24} />
