@@ -8,287 +8,370 @@ export const products = [
           title: "Plaid Flannel Shirt",
           price: 25.0,
           description:
-            "Classic plaid flannel shirt for a comfortable, casual look.",
+            "This classic plaid flannel shirt is a wardrobe essential for those seeking a blend of comfort and style. Crafted from soft, durable fabric, it's perfect for layering during cooler months or wearing on its own for a relaxed, casual look. The timeless plaid pattern adds a touch of rugged charm, making it an ideal choice for outdoor adventures or casual outings.",
           image: require("../assets/Casual/asset 12.jpeg"),
+          label: "Casual Wear",
+          rating: 4.3,
         },
         {
           title: "Basic White T-Shirt",
           price: 15.0,
           description:
-            "Soft cotton t-shirt, perfect for layering or wearing alone.",
+            "A basic white t-shirt is the cornerstone of any casual wardrobe. This soft cotton t-shirt offers unparalleled comfort and versatility, making it perfect for layering under jackets or wearing alone on warmer days. Its clean, minimalist design ensures it pairs effortlessly with any outfit, while its high-quality fabric provides long-lasting wear.",
           image: require("../assets/Casual/asset 13.jpeg"),
+          label: "Casual Wear",
+          rating: 4.6,
         },
         {
           title: "Denim Jeans",
           price: 40.0,
           description:
-            "Durable denim jeans with a straight-leg fit, ideal for everyday wear.",
+            "Our durable denim jeans are designed for those who appreciate both style and functionality. Featuring a classic straight-leg fit, these jeans are perfect for everyday wear. The high-quality denim ensures durability, while the timeless design makes them versatile enough to dress up or down, whether you're heading to work or out for a casual evening.",
           image: require("../assets/Casual/asset 14.jpeg"),
+          label: "Casual Wear",
+          rating: 4.8,
         },
         {
           title: "Cotton Polo Shirt",
           price: 30.0,
           description:
-            "Versatile cotton polo shirt with a relaxed fit and soft texture.",
+            "This versatile cotton polo shirt is a must-have for any casual wardrobe. With its relaxed fit and soft texture, it offers a perfect blend of comfort and style. The classic polo collar and button placket add a touch of sophistication, making it ideal for both casual Fridays at the office and weekend outings.",
           image: require("../assets/Casual/asset 19.jpeg"),
+          label: "Casual Wear",
+          rating: 4.4,
         },
         {
           title: "Hooded Sweatshirt",
           price: 35.0,
           description:
-            "Cozy hooded sweatshirt, great for a laid-back weekend style.",
+            "Stay cozy and stylish with our hooded sweatshirt, designed for ultimate comfort. Made from a soft, fleece-lined fabric, this sweatshirt is perfect for laid-back weekends or casual outings. The adjustable hood and front pocket provide added warmth and convenience, while the relaxed fit ensures a comfortable, easy-going look.",
           image: require("../assets/Casual/asset 20.jpeg"),
+          label: "Casual Wear",
+          rating: 4.7,
         },
         {
           title: "Graphic Tee",
           price: 20.0,
           description:
-            "Trendy graphic t-shirt that adds personality to any casual outfit.",
+            "Express your unique style with our trendy graphic t-shirt. Featuring bold, eye-catching designs, this t-shirt adds personality to any casual outfit. Made from soft, breathable fabric, it's perfect for everyday wear. Whether paired with jeans or shorts, this graphic tee is sure to become a go-to piece in your wardrobe.",
           image: require("../assets/Casual/asset 22.jpeg"),
+          label: "Casual Wear",
+          rating: 4.5,
         },
         {
           title: "Chino Pants",
           price: 45.0,
           description:
-            "Stylish chino pants with a tailored fit, perfect for casual Fridays.",
+            "Our stylish chino pants offer a tailored fit that effortlessly bridges the gap between casual and smart-casual. Crafted from high-quality fabric, these pants provide both comfort and durability. The versatile design makes them perfect for casual Fridays at the office, weekend outings, or any occasion that calls for a polished yet relaxed look.",
           image: require("../assets/Casual/asset 21.jpeg"),
+          label: "Casual Wear",
+          rating: 4.6,
         },
         {
           title: "Crewneck Sweater",
           price: 50.0,
           description:
-            "Comfortable crewneck sweater, a versatile piece for cooler days.",
+            "Our comfortable crewneck sweater is a versatile piece that you'll reach for time and again. Made from soft, warm fabric, it's perfect for layering during cooler months. The classic crewneck design ensures a timeless look, while the relaxed fit makes it ideal for both casual days at home and more polished outings.",
           image: require("../assets/Casual/asset 23.jpeg"),
+          label: "Casual Wear",
+          rating: 4.7,
         },
         {
           title: "Canvas Sneakers",
           price: 60.0,
           description:
-            "Lightweight canvas sneakers that complement any casual look.",
+            "Lightweight and versatile, our canvas sneakers are a staple for any casual wardrobe. Designed with comfort and style in mind, these sneakers feature a durable canvas upper and a flexible rubber sole. Perfect for everyday wear, they pair well with jeans, shorts, or even casual dresses, making them an essential addition to your footwear collection.",
           image: require("../assets/Casual/asset 27.jpeg"),
+          label: "Casual Wear",
+          rating: 4.8,
         },
         {
           title: "Casual Shorts",
           price: 25.0,
           description:
-            "Relaxed-fit shorts with side pockets, ideal for warm-weather days.",
+            "Stay cool and comfortable in our relaxed-fit casual shorts. Featuring a lightweight fabric and practical side pockets, these shorts are ideal for warm-weather days. Whether you're lounging at home or enjoying outdoor activities, their versatile design makes them a go-to choice for effortless summer style.",
           image: require("../assets/Casual/asset 28.jpeg"),
+          label: "Casual Wear",
+          rating: 4.5,
         },
       ],
+
       westernWear: [
         {
           title: "Cowboy Hat",
           price: 50.0,
           description:
-            "Traditional cowboy hat with a wide brim and classic design.",
+            "Step into the spirit of the Wild West with this traditional cowboy hat. Featuring a wide brim and classic design, this hat is both stylish and functional. Made from durable materials, it offers excellent sun protection while adding a rugged touch to any Western ensemble. Whether you're on the ranch or heading to a rodeo, this cowboy hat is a must-have accessory.",
           image: require("../assets/Western/asset 10.jpeg"),
+          label: "Western Wear",
+          rating: 4.5,
         },
         {
           title: "Western Denim Jacket",
           price: 70.0,
           description:
-            "Rugged denim jacket with western-style stitching and button-up front.",
+            "Embrace the timeless appeal of the Old West with this rugged denim jacket. Designed with Western-style stitching and a classic button-up front, this jacket combines durability with style. Its heavy-duty denim fabric provides warmth and protection, making it perfect for both work and casual outings. The intricate stitching and authentic details add a touch of Western flair to your wardrobe.",
           image: require("../assets/Western/asset 34.jpeg"),
+          label: "Western Wear",
+          rating: 5,
         },
         {
           title: "Plaid Western Shirt",
           price: 40.0,
           description:
-            "Authentic plaid shirt with snap buttons and a Western flair.",
+            "Channel your inner cowboy with this authentic plaid Western shirt. Featuring snap buttons and a classic Western cut, this shirt is designed for comfort and style. The bold plaid pattern adds a touch of rugged charm, making it a versatile piece that pairs well with jeans and boots. Whether you're at a country music concert or a casual gathering, this shirt is sure to make a statement.",
           image: require("../assets/Western/asset 11.jpeg"),
+          label: "Western Wear",
+          rating: 4,
         },
         {
           title: "Leather Cowboy Boots",
           price: 150.0,
           description:
-            "Premium leather cowboy boots with intricate stitching and durable soles.",
+            "Experience the pinnacle of Western craftsmanship with these premium leather cowboy boots. Handcrafted with intricate stitching and durable soles, these boots are built to last. The high-quality leather ensures a comfortable fit, while the detailed stitching adds a touch of elegance. Whether you're on horseback or the dance floor, these boots are the perfect blend of style and functionality.",
           image: require("../assets/Western/asset 12.jpeg"),
+          label: "Western Wear",
+          rating: 5,
         },
         {
           title: "Fringe Suede Vest",
           price: 60.0,
           description:
-            "Soft suede vest with fringe details, perfect for layering over a shirt.",
+            "Add a touch of Western flair to your outfit with this soft suede vest. Featuring fringe details and a comfortable fit, this vest is perfect for layering over a shirt or t-shirt. The rich suede texture and playful fringe make it a standout piece, whether you're dressing up for a special event or adding a stylish layer to your everyday look.",
           image: require("../assets/Western/asset 13.jpeg"),
+          label: "Western Wear",
+          rating: 3.5,
         },
         {
           title: "Bootcut Jeans",
           price: 55.0,
           description:
-            "Classic bootcut jeans with a slight flare, ideal for wearing with boots.",
+            "These classic bootcut jeans are designed with the Western enthusiast in mind. Featuring a slight flare, they are ideal for wearing with your favorite boots. The durable denim fabric provides comfort and longevity, while the tailored fit ensures a flattering silhouette. Whether you're at a rodeo or a casual outing, these jeans are a versatile and stylish choice.",
           image: require("../assets/Western/asset 14.jpeg"),
+          label: "Western Wear",
+          rating: 4.5,
         },
         {
           title: "Western Belt with Buckle",
           price: 35.0,
           description:
-            "Leather belt with an ornate western-style buckle for a bold statement.",
+            "Make a bold statement with this leather Western belt, complete with an ornate buckle. Crafted from high-quality leather, this belt is both durable and stylish. The detailed buckle adds a touch of Western elegance, making it the perfect accessory for jeans or a Western outfit. Whether you're dressing up for a special occasion or adding flair to your everyday wear, this belt is a must-have.",
           image: require("../assets/Western/asset 15.jpeg"),
+          label: "Western Wear",
+          rating: 4,
         },
         {
           title: "Bandana Scarf",
           price: 15.0,
           description:
-            "Classic bandana scarf that adds a Western touch to any outfit.",
+            "This classic bandana scarf is a versatile accessory that adds a touch of Western style to any outfit. Made from soft, breathable fabric, it can be worn in various ways—around the neck, as a headband, or even as a face covering. The timeless design and bold colors make it a standout piece, whether you're hitting the trail or heading to a festival.",
           image: require("../assets/Western/asset 16.jpeg"),
+          label: "Western Wear",
+          rating: 3,
         },
         {
           title: "Rodeo Shirt",
           price: 45.0,
           description:
-            "Embroidered rodeo shirt with a bold design and snap closures.",
+            "Stand out in the crowd with this embroidered rodeo shirt, featuring bold designs and snap closures. The detailed embroidery adds a unique touch, while the snap buttons provide convenience and a classic Western look. Perfect for rodeos, country music events, or casual outings, this shirt is designed for those who appreciate quality and style.",
           image: require("../assets/Western/asset 17.jpeg"),
+          label: "Western Wear",
+          rating: 4.5,
         },
         {
           title: "Western Skirt",
           price: 50.0,
           description:
-            "Flowing Western skirt with a high waist and detailed stitching.",
+            "Embrace your Western spirit with this flowing Western skirt, featuring a high waist and detailed stitching. The soft fabric drapes beautifully, providing a comfortable fit and a flattering silhouette. Whether paired with boots or sandals, this skirt is perfect for a range of occasions, from casual outings to Western-themed events.",
           image: require("../assets/Western/asset 9.jpeg"),
+          label: "Western Wear",
+          rating: 4,
         },
       ],
+
       kidsWear: [
         {
           title: "Graphic T-Shirt",
           price: 12.0,
           description:
-            "Fun and colorful graphic t-shirt made from soft, breathable cotton.",
+            "This fun and colorful graphic t-shirt is designed to bring a smile to any child's face. Made from soft, breathable cotton, it's gentle on the skin and perfect for everyday wear. The vibrant prints make it a standout piece, whether paired with jeans, shorts, or skirts. Ideal for school, playdates, or just lounging at home, this t-shirt combines comfort with style.",
           image: require("../assets/Kids/asset 11.jpeg"),
+          label: "Kids Wear",
+          rating: 4.5,
         },
         {
           title: "Denim Overalls",
           price: 25.0,
           description:
-            "Classic denim overalls with adjustable straps, perfect for playtime.",
+            "These classic denim overalls are perfect for playtime and adventure. Featuring adjustable straps and a durable fabric, they are designed to withstand the rough and tumble of active kids. The roomy pockets are great for storing small treasures, and the timeless design makes them easy to pair with any top. Whether for a day at the park or a family outing, these overalls are a versatile addition to your child's wardrobe.",
           image: require("../assets/Kids/asset 12.jpeg"),
+          label: "Kids Wear",
+          rating: 5,
         },
         {
           title: "Kids Hoodie",
           price: 20.0,
           description:
-            "Cozy hoodie with a fun print, keeping kids warm and stylish.",
+            "Keep your little ones warm and stylish with this cozy hoodie. Featuring a fun print that kids will love, it's perfect for layering on chilly days. The soft interior provides comfort, while the hood adds extra warmth. Whether they're heading to school, a playdate, or just relaxing at home, this hoodie is a must-have for any kid's wardrobe.",
           image: require("../assets/Kids/asset 23.jpeg"),
+          label: "Kids Wear",
+          rating: 4,
         },
         {
           title: "Cartoon Pajamas",
           price: 18.0,
           description:
-            "Comfortable pajamas featuring their favorite cartoon characters.",
+            "Bedtime becomes a fun time with these comfortable cartoon pajamas. Featuring their favorite cartoon characters, these pajamas are sure to make any child excited for sleep. Made from soft, breathable fabric, they ensure a restful night's sleep while keeping your little one cozy. Perfect for sleepovers or relaxing at home, these pajamas are a hit with kids and parents alike.",
           image: require("../assets/Kids/asset 24.jpeg"),
+          label: "Kids Wear",
+          rating: 4.5,
         },
         {
           title: "Floral Dress",
           price: 30.0,
           description:
-            "Adorable floral dress with a twirl-worthy skirt, ideal for special occasions.",
+            "This adorable floral dress is perfect for twirling and special occasions. The vibrant floral pattern and twirl-worthy skirt make it a favorite for both kids and parents. Made from soft, breathable fabric, it provides comfort while looking stylish. Whether it's a family gathering, birthday party, or a special event, this dress adds a touch of elegance to any occasion.",
           image: require("../assets/Kids/asset 25.jpeg"),
+          label: "Kids Wear",
+          rating: 5,
         },
         {
           title: "Cargo Shorts",
           price: 15.0,
           description:
-            "Durable cargo shorts with plenty of pockets for all their treasures.",
+            "These durable cargo shorts are designed for active kids who love to explore. With plenty of pockets to hold all their treasures, these shorts are both practical and stylish. Made from sturdy fabric, they can withstand the rigors of play while providing a comfortable fit. Ideal for warm-weather adventures, these shorts are a go-to choice for any young explorer.",
           image: require("../assets/Kids/asset 26.jpeg"),
+          label: "Kids Wear",
+          rating: 4,
         },
         {
           title: "Rain Jacket",
           price: 35.0,
           description:
-            "Waterproof rain jacket with a hood, keeping kids dry during rainy days.",
+            "Keep your little one dry and happy with this waterproof rain jacket. Featuring a hood and a comfortable fit, it's perfect for rainy days and outdoor adventures. The durable fabric and secure closures ensure that your child stays protected from the elements, while the fun design adds a playful touch. Whether for school or weekend outings, this jacket is a rainy-day essential.",
           image: require("../assets/Kids/asset 27.jpeg"),
+          label: "Kids Wear",
+          rating: 4.5,
         },
         {
           title: "Striped Polo",
           price: 18.0,
           description:
-            "Classic striped polo shirt, perfect for casual or semi-formal wear.",
+            "This classic striped polo shirt is a versatile addition to any child's wardrobe. Perfect for both casual and semi-formal occasions, it offers a timeless look that's always in style. Made from soft, breathable fabric, it provides comfort throughout the day. Pair it with jeans, shorts, or skirts for a polished look that works for any occasion.",
           image: require("../assets/Kids/asset 28.jpeg"),
+          label: "Kids Wear",
+          rating: 4,
         },
         {
           title: "Kids Sneakers",
           price: 30.0,
           description:
-            "Lightweight and durable sneakers designed for active kids.",
+            "These lightweight and durable sneakers are designed for active kids on the go. The flexible sole and comfortable fit make them ideal for running, jumping, and playing. The stylish design complements any casual outfit, while the sturdy construction ensures they can keep up with even the most energetic little ones. Perfect for school, sports, or weekend adventures, these sneakers are a reliable choice.",
           image: require("../assets/Kids/asset 29.jpeg"),
+          label: "Kids Wear",
+          rating: 4.5,
         },
         {
           title: "Sun Hat",
           price: 10.0,
           description:
-            "Wide-brim sun hat providing UV protection during outdoor adventures.",
+            "Protect your child from the sun with this wide-brim sun hat, offering excellent UV protection during outdoor adventures. Made from lightweight and breathable fabric, it's perfect for hot days at the beach, park, or backyard. The adjustable fit ensures it stays in place, while the fun design makes it a favorite accessory for kids. Keep your little one safe and stylish under the sun.",
           image: require("../assets/Kids/asset 43.jpeg"),
+          label: "Kids Wear",
+          rating: 4,
         },
       ],
+
       ethnicWear: [
         {
           title: "Embroidered Kurta",
           price: 40.0,
           description:
-            "Elegant kurta with intricate embroidery, perfect for festive occasions.",
+            "This elegant kurta is adorned with intricate embroidery that exudes traditional charm. Crafted from high-quality fabric, it offers both comfort and style, making it the perfect choice for festive occasions, family gatherings, or cultural events. The detailed embroidery work on the neckline and sleeves adds a touch of sophistication, making this kurta a standout piece in any ethnic wardrobe.",
           image: require("../assets/Ethenic/asset 15.jpeg"),
+          label: "Ethnic Wear",
+          rating: 4.5,
         },
         {
           title: "Saree with Blouse",
           price: 70.0,
           description:
-            "Beautiful saree paired with a matching blouse, a timeless ethnic piece.",
+            "This beautiful saree is paired with a matching blouse, creating a timeless ethnic ensemble. The saree is designed with exquisite patterns that flow gracefully, while the blouse complements the look with its elegant design. Ideal for weddings, festive celebrations, or formal events, this saree with blouse set is a must-have for any ethnic wear collection.",
           image: require("../assets/Ethenic/asset 16.jpeg"),
+          label: "Ethnic Wear",
+          rating: 5,
         },
         {
           title: "Anarkali Dress",
           price: 80.0,
           description:
-            "Flared Anarkali dress with detailed work, ideal for celebrations.",
+            "This flared Anarkali dress is a true embodiment of elegance and grace. Detailed with intricate work, the dress features a flowing silhouette that makes it ideal for celebrations, weddings, and festive occasions. The rich fabric and delicate embellishments enhance its beauty, making it a statement piece that stands out in any gathering.",
           image: require("../assets/Ethenic/asset 17.jpeg"),
+          label: "Ethnic Wear",
+          rating: 4.8,
         },
         {
           title: "Silk Dhoti",
           price: 50.0,
           description:
-            "Traditional silk dhoti with a contemporary twist, comfortable and stylish.",
+            "Experience the perfect blend of tradition and style with this silk dhoti. Crafted from luxurious silk, it offers a contemporary twist on a classic ethnic garment. The comfortable fit and elegant drape make it suitable for both casual and formal occasions, while the rich texture adds a touch of opulence to your ethnic wardrobe.",
           image: require("../assets/Ethenic/asset 18.jpeg"),
+          label: "Ethnic Wear",
+          rating: 4.2,
         },
         {
           title: "Lehenga Choli",
           price: 90.0,
           description:
-            "Stunning lehenga choli with intricate patterns, perfect for weddings.",
+            "This stunning lehenga choli is adorned with intricate patterns that make it perfect for weddings and grand celebrations. The lehenga features a flowing skirt with detailed embroidery, while the choli is designed to complement the overall look with its exquisite craftsmanship. This ensemble is sure to turn heads and make you the center of attention at any event.",
           image: require("../assets/Ethenic/asset 19.jpeg"),
+          label: "Ethnic Wear",
+          rating: 5,
         },
         {
           title: "Pathani Suit",
           price: 60.0,
           description:
-            "Classic Pathani suit with a modern cut, suitable for cultural events.",
+            "This classic Pathani suit is given a modern cut, making it suitable for both traditional and contemporary cultural events. The comfortable fit and stylish design make it a versatile addition to any ethnic wardrobe. Whether attending a family gathering or a festive celebration, this Pathani suit offers a perfect blend of tradition and modernity.",
           image: require("../assets/Ethenic/asset 28.jpeg"),
+          label: "Ethnic Wear",
+          rating: 4.3,
         },
         {
           title: "Men’s Sherwani",
           price: 120.0,
           description:
-            "Royal sherwani with detailed embroidery, perfect for grand celebrations.",
+            "This royal sherwani is a masterpiece of detailed embroidery, perfect for grand celebrations and weddings. The rich fabric and intricate designs exude regality, making it an ideal choice for the modern groom or anyone attending a lavish event. With its luxurious feel and elegant design, this sherwani is sure to make a lasting impression.",
           image: require("../assets/Ethenic/asset 29.jpeg"),
+          label: "Ethnic Wear",
+          rating: 5,
         },
         {
           title: "Churidar Leggings",
           price: 25.0,
           description:
-            "Comfortable churidar leggings, essential for pairing with kurtas.",
+            "These comfortable churidar leggings are essential for pairing with kurtas, adding a traditional touch to your ethnic outfits. Made from stretchable fabric, they offer a snug fit that complements the flowing nature of kurtas and tunics. Perfect for both casual and formal occasions, these leggings are a versatile addition to your ethnic wardrobe.",
           image: require("../assets/Ethenic/asset 30.jpeg"),
+          label: "Ethnic Wear",
+          rating: 4.1,
         },
         {
           title: "Embroidered Dupatta",
           price: 30.0,
           description:
-            "Gorgeous embroidered dupatta, adding grace to any ethnic outfit.",
+            "This gorgeous embroidered dupatta is designed to add grace and elegance to any ethnic outfit. The detailed embroidery work enhances its beauty, making it a perfect accessory for special occasions. Whether draped over a simple kurta or paired with a lehenga, this dupatta elevates your ethnic look with its sophisticated charm.",
           image: require("../assets/Ethenic/asset 31.jpeg"),
+          label: "Ethnic Wear",
+          rating: 4.7,
         },
         {
           title: "Jutti Shoes",
           price: 35.0,
           description:
-            "Traditional jutti shoes with intricate beadwork, perfect for ethnic attire.",
+            "These traditional jutti shoes are adorned with intricate beadwork, making them a perfect match for ethnic attire. The comfortable fit and stylish design make them ideal for weddings, festive occasions, or any cultural event. Step out in style with these beautifully crafted juttis that add a touch of tradition to your outfit.",
           image: require("../assets/Ethenic/asset 32.jpeg"),
+          label: "Ethnic Wear",
+          rating: 4.5,
         },
       ],
     },

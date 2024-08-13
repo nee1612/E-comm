@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { products } from "../ProductJSON/products"; // Update the import path as necessary
+import { useNavigate } from "react-router-dom";
 
 const shuffleArray = (array) => {
   return array.sort(() => Math.random() - 0.5);
 };
 
 const ProductGrid = () => {
+  const navigate = useNavigate();
   const { casualWear, westernWear, kidsWear, ethnicWear } =
     products[0].categories;
 
@@ -37,6 +39,12 @@ const ProductGrid = () => {
   // Handle page change
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const navigateToProductPage = (e, product) => {
+    e.preventDefault();
+    navigate("/product", {
+      state: product,
+    });
+  };
   return (
     <>
       <p className="flex justify-center text-3xl font-bold font-raleway">
@@ -50,6 +58,9 @@ const ProductGrid = () => {
 
             return (
               <div
+                onClick={(e) => {
+                  navigateToProductPage(e, product);
+                }}
                 key={index}
                 className="relative p-4 rounded-md bg-white shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
               >

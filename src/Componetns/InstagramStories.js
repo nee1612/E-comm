@@ -1,11 +1,11 @@
 import React from "react";
-import { FaInstagram } from "react-icons/fa";
+import { FaInstagram, FaShoppingBag } from "react-icons/fa";
 import user1 from "../assets/Rectangle 3463272.png";
 import user2 from "../assets/Rectangle 3463273.png";
 import user3 from "../assets/bgg.png";
 import user4 from "../assets/$RPSISKI.jpg";
 
-const InstagramStories = () => {
+const InstagramStories = ({ pageType }) => {
   const images = [
     {
       src: user1, // Replace with your image URLs
@@ -27,9 +27,9 @@ const InstagramStories = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 font-raleway">
-      <h2 className="text-center text-3xl font-semibold mb-8">
+      {/* <h2 className="text-center text-3xl font-semibold mb-8">
         Our Instagram Stories
-      </h2>
+      </h2> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {images.map((image, index) => (
           <div
@@ -42,7 +42,11 @@ const InstagramStories = () => {
               className="w-full h-[20rem] object-top object-cover transition-transform duration-300 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <FaInstagram className="text-white text-4xl" />
+              {pageType === "home" ? (
+                <FaInstagram className="text-white text-4xl" />
+              ) : (
+                <FaShoppingBag className="text-white text-4xl" />
+              )}
             </div>
           </div>
         ))}

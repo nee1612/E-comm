@@ -17,7 +17,10 @@ function Home() {
       <ProductGrid />
       <DealsOfTheMonth />
       <ReviewCarousel />
-      <InstagramStories />
+      <h2 className="text-center text-3xl font-semibold mb-8">
+        Our Instagram Stories
+      </h2>
+      <InstagramStories pageType="home" />
       <Footer />
     </div>
   );

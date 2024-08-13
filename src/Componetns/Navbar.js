@@ -1,7 +1,26 @@
 import React from "react";
 import Logo from "../assets/image.png";
+import { signOut } from "firebase/auth";
+import { auth } from "../Config/firebase";
+
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
+const cookies = new Cookies();
 
 function Nav() {
+  const navigate = useNavigate();
+  const refToken = cookies.get("auth-token");
+
+  const logOut = async () => {
+    try {
+      await signOut(auth);
+      cookies.remove("auth-token");
+      console.log(" sidebar reftoken:", refToken);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <nav className="bg-white shadow-md py-4 px-8 flex justify-between items-center font-raleway sticky top-0 z-50">
       <div className="text-2xl font-bold">
@@ -74,19 +93,30 @@ function Nav() {
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="lucide lucide-shopping-bag"
+            class="lucide lucide-shopping-cart"
           >
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
-            <path d="M3 6h18" />
-            <path d="M16 10a4 4 0 0 1-8 0" />
+            <circle cx="8" cy="21" r="1" />
+            <circle cx="19" cy="21" r="1" />
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
           </svg>
         </a>
-        <a
-          href="#"
-          className="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800"
-        >
-          Login
-        </a>
+        {refToken ? (
+          <button
+            onClick={() => {
+              logOut();
+            }}
+            className="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800"
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800"
+          >
+            Login
+          </button>
+        )}
       </div>
     </nav>
   );

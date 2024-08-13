@@ -1,0 +1,15 @@
+.custom-toast-success {
+  background-color: #232d3f !important;
+  color: white !important;
+
+  font-family: "Raleway", sans-serif;
+}
+
+.custom-toast-error {
+  background-color: #f44336 !important;
+  color: white !important;
+  font-family: "Raleway", sans-serif;
+}
+.Toastify__close-button {
+  color: white !important;
+}
