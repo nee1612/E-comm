@@ -7,19 +7,27 @@ import DealsOfTheMonth from "../../Componetns/DealsOfTheMonth";
 import ReviewCarousel from "../../Componetns/ReviewCarousel";
 import InstagramStories from "../../Componetns/InstagramStories";
 import Footer from "../../Componetns/Footer";
+import { useRef } from "react";
 
 function Home() {
+  const productGridRef = useRef(null);
+
+  const scrollToProductGrid = () => {
+    if (productGridRef.current) {
+      productGridRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <div>
-      <Nav />
+      <Nav scrollToProductGrid={scrollToProductGrid} />
       <HomeComp />
       <ShopByCategories />
-      <ProductGrid />
+      <div ref={productGridRef}>
+        <ProductGrid />
+      </div>
       <DealsOfTheMonth />
       <ReviewCarousel />
-      <h2 className="text-center text-3xl font-semibold mb-8">
-        Our Instagram Stories
-      </h2>
+
       <InstagramStories pageType="home" />
       <Footer />
     </div>

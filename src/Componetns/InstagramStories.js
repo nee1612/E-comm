@@ -27,6 +27,11 @@ const InstagramStories = ({ pageType }) => {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 font-raleway">
+      {pageType === "home" && (
+        <h2 className="text-center text-3xl font-semibold mb-8">
+          Our Instagram Stories
+        </h2>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {images.map((image, index) => (
           <div

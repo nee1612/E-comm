@@ -111,7 +111,7 @@ const Cart = () => {
       ) : (
         <>
           {cartList.length === 0 ? (
-            <div className=" mt-5 p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-lg mx-10">
+            <div className=" mt-5 p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-lg mx-6  sm:mx-10">
               <div className="flex mt-14 justify-center font-raleway">
                 <Lottie animationData={emptyCart} className="w-[30%]" />
               </div>

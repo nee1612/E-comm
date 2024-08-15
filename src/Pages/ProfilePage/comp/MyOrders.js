@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { userCartItems, confirmOrder } from "../../../Config/firebase";
 import UserContext from "../../../Context/UserContext";
 import moment from "moment/moment";
@@ -16,7 +16,9 @@ const MyOrders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const orders = await getDocs(query(orderRef));
+      const orders = await getDocs(
+        query(orderRef, orderBy("createdAt", "desc"))
+      );
       const filterItemByUser = orders.docs.filter(
         (doc) => doc.data().userId === userDetails.uid
       );

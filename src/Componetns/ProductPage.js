@@ -3,30 +3,41 @@ import { useLocation, useNavigate } from "react-router-dom";
 import InstagramStories from "./InstagramStories";
 import Footer from "./Footer";
 import Nav from "./Navbar";
-import { IoMdHeartEmpty, IoMdAdd, IoIosRemove } from "react-icons/io";
+import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { toast } from "react-toastify";
-import { collection, addDoc } from "firebase/firestore";
-import { userCartItems } from "../Config/firebase";
+import {
+  collection,
+  addDoc,
+  deleteDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { userCartItems, wishlistDb } from "../Config/firebase";
 import UserContext from "../Context/UserContext";
 import Lottie from "lottie-react";
 import cartLoader from "../assets/Lottie/cartLoader.json";
 import Cookies from "universal-cookie";
+import { IoIosRemove, IoMdAdd } from "react-icons/io";
+
 const cookies = new Cookies();
 
 const ProductPage = () => {
-  const { userDetails, setCartList } = useContext(UserContext);
-
+  const { userDetails, setCartList, wishlist, fetchWishlistItems } =
+    useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
   const prodDetail = location.state;
-
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(null);
   const [activeTab, setActiveTab] = useState("Descriptions");
   const [cart, setCart] = useState([]);
-  const cartRef = collection(userCartItems, "cartItems");
   const [loading, setLoading] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [inWishlist, setInWishlist] = useState(false);
+
+  const cartRef = collection(userCartItems, "cartItems");
+  const wishlistRef = collection(wishlistDb, "wishlistDb");
 
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () =>
@@ -40,7 +51,6 @@ const ProductPage = () => {
         className: "custom-toast-error",
         bodyClassName: "customToast",
       });
-
       return;
     }
     if (!selectedSize) {
@@ -65,6 +75,13 @@ const ProductPage = () => {
     try {
       setLoading(true);
       await addDoc(cartRef, cartItem);
+      setCartList((prev) => [...prev, cartItem]);
+      setAddedToCart(true);
+      toast.success("Item Added to cart", {
+        position: "top-center",
+        className: "custom-toast-success",
+        bodyClassName: "customToast",
+      });
     } catch (err) {
       console.error(err);
       toast.error("Error adding item to cart", {
@@ -74,19 +91,81 @@ const ProductPage = () => {
       });
     }
     setLoading(false);
-    toast.success("Item Added to cart", {
-      position: "top-center",
-      className: "custom-toast-success",
-      bodyClassName: "customToast",
-    });
-    setCartList((prev) => [...prev, cartItem]);
-    setAddedToCart(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const toggleWishlist = async () => {
+    const token = cookies.get("auth-token");
+    if (!token) {
+      toast.error("Please login first", {
+        position: "top-center",
+        className: "custom-toast-error",
+        bodyClassName: "customToast",
+      });
+      return;
+    }
+
+    try {
+      if (inWishlist) {
+        // Remove from wishlist
+        const q = query(
+          wishlistRef,
+          where("title", "==", prodDetail.title),
+          where("userId", "==", userDetails.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        });
+        toast.success("Removed from wishlist", {
+          position: "top-center",
+          className: "custom-toast-success",
+          bodyClassName: "customToast",
+        });
+      } else {
+        // Add to wishlist
+        const wishlistItem = {
+          title: prodDetail.title,
+          label: prodDetail.label,
+          rating: prodDetail.rating,
+          image: prodDetail.image,
+          price: prodDetail.price,
+          userId: userDetails.uid,
+        };
+        await addDoc(wishlistRef, wishlistItem);
+        toast.success("Added to wishlist", {
+          position: "top-center",
+          className: "custom-toast-success",
+          bodyClassName: "customToast",
+        });
+      }
+      setInWishlist(!inWishlist);
+      fetchWishlistItems(); // Refresh wishlist state
+    } catch (err) {
+      console.error(err);
+      toast.error("Error updating wishlist", {
+        position: "top-center",
+        className: "custom-toast-error",
+        bodyClassName: "customToast",
+      });
+    }
+  };
+
   useEffect(() => {
-    console.log("Cart updated:", cart);
-  }, [cart]);
+    const checkWishlistStatus = async () => {
+      const token = cookies.get("auth-token");
+      if (token) {
+        const q = query(
+          wishlistRef,
+          where("title", "==", prodDetail.title),
+          where("userId", "==", userDetails.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        setInWishlist(!querySnapshot.empty);
+      }
+    };
+    checkWishlistStatus();
+  }, [prodDetail.title, userDetails.uid, wishlist, fetchWishlistItems]);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -276,8 +355,18 @@ const ProductPage = () => {
                         "Add to Cart"
                       )}
                     </button>
-                    <button className="ml-4 px-4 py-2 border rounded-lg hover:bg-gray-200 transition-colors duration-300">
-                      <IoMdHeartEmpty size={24} />
+                    {/* Wishlist button */}
+                    <button
+                      className={`ml-4 px-4 py-2 border rounded-lg hover:bg-gray-200 transition-colors duration-300 ${
+                        inWishlist ? "text-red-500" : "text-gray-500"
+                      }`}
+                      onClick={toggleWishlist}
+                    >
+                      {inWishlist ? (
+                        <IoMdHeart size={23} />
+                      ) : (
+                        <IoMdHeartEmpty size={23} />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -290,8 +379,15 @@ const ProductPage = () => {
                 >
                   View Cart
                 </button>
-                <button className="ml-4 px-4 py-2 border rounded-lg hover:bg-gray-200 transition-colors duration-300">
-                  <IoMdHeartEmpty size={24} />
+                <button
+                  className="ml-4 px-4 py-2 border rounded-lg hover:bg-gray-200 transition-colors duration-300"
+                  onClick={toggleWishlist}
+                >
+                  {inWishlist ? (
+                    <IoMdHeart size={24} />
+                  ) : (
+                    <IoMdHeartEmpty size={24} />
+                  )}
                 </button>
               </div>
             )}

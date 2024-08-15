@@ -10,7 +10,7 @@ const UserContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [cartList, setCartList] = useState([]);
   const wishlistRef = collection(wishlistDb, "wishlistDb");
-  const [wishlist, setWishlist] = useState([]);
+  const [wishlist, setWishlistSec] = useState([]);
 
   const applyDiscount = (code) => {
     setDiscount(code === "FLAT50" ? 0.5 : 0);
@@ -55,9 +55,9 @@ const UserContextProvider = ({ children }) => {
           ...doc.data(),
         }));
         console.log("wishlistItems", wishlistItemsSec);
-        setWishlist(wishlistItemsSec);
+        setWishlistSec(wishlistItemsSec);
       } else {
-        setWishlist([]);
+        setWishlistSec([]);
       }
     } catch (err) {
       console.error(err);
@@ -88,9 +88,11 @@ const UserContextProvider = ({ children }) => {
         setDiscountCode,
         loading,
         cartList,
-        setCartList, // Optionally expose to update cartList directly
-        clearCart: () => setCartList([]), // Method to clear cartList
+        setCartList,
+        clearCart: () => setCartList([]),
         wishlist,
+        clearWishlist: () => setWishlistSec([]),
+        setWishlistSec,
         fetchWishlistItems,
       }}
     >

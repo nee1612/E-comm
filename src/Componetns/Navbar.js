@@ -9,8 +9,9 @@ import UserContext from "../Context/UserContext";
 import Sidebar from "./Sidebar";
 const cookies = new Cookies();
 
-function Nav() {
-  const { cartList, clearCart } = useContext(UserContext);
+function Nav({ scrollToProductGrid }) {
+  const { cartList, clearCart, wishlist, clearWishlist } =
+    useContext(UserContext);
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -21,6 +22,7 @@ function Nav() {
       await signOut(auth);
       cookies.remove("auth-token");
       clearCart();
+      clearWishlist();
       navigate("/");
     } catch (err) {
       console.error(err);
@@ -46,7 +48,11 @@ function Nav() {
         <Link to="/" className="text-sm text-gray-700 hover:text-black">
           Home
         </Link>
-        <Link to="/shop" className="text-sm text-gray-700 hover:text-black">
+        <Link
+          onClick={scrollToProductGrid}
+          to="/"
+          className="text-sm text-gray-700 hover:text-black"
+        >
           Shop
         </Link>
         <Link to="/profile" className="text-sm text-gray-700 hover:text-black">
@@ -79,7 +85,7 @@ function Nav() {
         </Link>
         <Link
           to="/wishlist"
-          className="text-gray-700 no-underline hover:text-black"
+          className="text-gray-700 relative no-underline hover:text-black"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -95,6 +101,9 @@ function Nav() {
           >
             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
           </svg>
+          {wishlist.length > 0 && (
+            <p className="absolute w-[8px] h-[8px] text-[0.55rem] text-center top-[0.7px] -right-[2px] rounded-full bg-red-600 font-semibold text-white"></p>
+          )}
         </Link>
         <Link to="/cart" className="text-gray-700 hover:text-black relative">
           <svg

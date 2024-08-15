@@ -12,7 +12,7 @@ const ProductGrid = () => {
   const navigate = useNavigate();
   const { userDetails, wishlist, fetchWishlistItems } = useContext(UserContext);
   const wishlistTitles = new Set(wishlist.map((item) => item.title)); // Use Set for fast lookup
-
+  const refToken = cookies.get("auth-token");
   const wishlistRef = collection(wishlistDb, "wishlistDb");
   const { casualWear, westernWear, kidsWear, ethnicWear } =
     products[0].categories;
@@ -23,7 +23,6 @@ const ProductGrid = () => {
     ...kidsWear,
     ...ethnicWear,
   ];
-  // No shuffling, use allProducts directly
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -147,21 +146,41 @@ const ProductGrid = () => {
                     alt={product.title}
                     className="w-full h-[16rem] object-cover mb-4 rounded-md"
                   />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill={wishlistTitles.has(product.title) ? "red" : "none"}
-                    stroke={wishlistTitles.has(product.title) ? "red" : "white"}
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-heart absolute top-2 right-2 text-xl opacity-100 transition-opacity duration-300 cursor-pointer"
-                    onClick={(e) => handleWishlistClick(e, product)}
-                  >
-                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                  </svg>
+                  {refToken ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill={wishlistTitles.has(product.title) ? "red" : "none"}
+                      stroke={
+                        wishlistTitles.has(product.title) ? "red" : "#F5EDED"
+                      }
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-heart absolute top-2 right-2 text-xl opacity-100 transition-opacity duration-300 cursor-pointer"
+                      onClick={(e) => handleWishlistClick(e, product)}
+                    >
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#F6F5F5"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-heart absolute top-2 right-2 text-xl opacity-100 transition-opacity duration-300 cursor-pointer"
+                      onClick={(e) => handleWishlistClick(e, product)}
+                    >
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                    </svg>
+                  )}
                 </div>
                 <h2 className="text-lg font-semibold">{product.title}</h2>
                 <p className="text-gray-500">
