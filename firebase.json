@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "krist-iiitb",
     "public": "build",
     "rewrites": [
       {
