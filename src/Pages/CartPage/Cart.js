@@ -162,7 +162,7 @@ const Cart = () => {
                             <p className="text-gray-600">Size: {item.size}</p>
                           </div>
                         </div>
-                        <div className="w-1/6 text-center font-bold text-base md:text-lg">
+                        <div className="w-1/6 text-center font-bold text-base md:text-lg font-radio-canada">
                           $ {item.price}
                         </div>
                         <div className="flex items-center justify-center w-1/6">
@@ -170,7 +170,7 @@ const Cart = () => {
                             {item.quantity}
                           </span>
                         </div>
-                        <div className="w-1/6 text-center font-bold text-base md:text-lg">
+                        <div className="w-1/6 text-center font-bold text-base md:text-lg font-radio-canada">
                           $ {item.price * item.quantity}
                         </div>
                         <button
@@ -186,19 +186,28 @@ const Cart = () => {
                     ))}
                   </div>
                   {/* Summary Section */}
-                  <div className="w-full lg:w-[40%] lg:ml-10 border p-4 rounded-md shadow-md">
+                  <div
+                    className="w-full lg:w-[40%] lg:ml-10 border p-4 rounded-md shadow-md"
+                    style={{
+                      height: "21rem",
+                    }}
+                  >
                     <h2 className="text-lg md:text-xl font-bold mb-2">
                       Summary
                     </h2>
                     <hr className="mb-3" />
                     <div className="mb-2 flex justify-between text-sm md:text-base">
                       <span>Subtotal</span>
-                      <span>$ {subtotal.toFixed(2)}</span>
+                      <span className="font-radio-canada">
+                        $ {subtotal.toFixed(2)}
+                      </span>
                     </div>
                     {discount > 0 && (
                       <div className="mb-2 flex justify-between text-sm md:text-base">
                         <span>Discounted Subtotal</span>
-                        <span>$ {discountedSubtotal.toFixed(2)}</span>
+                        <span className="font-radio-canada">
+                          $ {discountedSubtotal.toFixed(2)}
+                        </span>
                       </div>
                     )}
                     <div className="mb-2">
@@ -227,12 +236,16 @@ const Cart = () => {
                     </div>
                     <div className="mb-2 flex justify-between text-sm md:text-base">
                       <span>Delivery Charge</span>
-                      <span>$ {deliveryCharge.toFixed(2)}</span>
+                      <span className="font-radio-canada">
+                        $ {deliveryCharge.toFixed(2)}
+                      </span>
                     </div>
                     <hr className="my-3" />
                     <div className="mb-4 flex justify-between text-base md:text-lg font-bold">
                       <span>Grand Total</span>
-                      <span>$ {grandTotal.toFixed(2)}</span>
+                      <span className="font-radio-canada">
+                        $ {grandTotal.toFixed(2)}
+                      </span>
                     </div>
                     <button
                       onClick={() => navigate("/shipping")}

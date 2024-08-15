@@ -7,11 +7,13 @@ import Cookies from "universal-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../Context/UserContext";
 import Sidebar from "./Sidebar";
+import { useScroll } from "../Context/ScrollContext";
 const cookies = new Cookies();
 
-function Nav({ scrollToProductGrid }) {
+function Nav() {
   const { cartList, clearCart, wishlist, clearWishlist } =
     useContext(UserContext);
+  const { scrollToProductGrid } = useScroll();
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -36,6 +38,9 @@ function Nav({ scrollToProductGrid }) {
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
+  const handleShopClick = () => {
+    scrollToProductGrid();
+  };
 
   return (
     <nav className="bg-white shadow-md py-4 px-8 flex justify-between items-center font-raleway sticky top-0 z-50">
@@ -49,7 +54,7 @@ function Nav({ scrollToProductGrid }) {
           Home
         </Link>
         <Link
-          onClick={scrollToProductGrid}
+          onClick={handleShopClick}
           to="/"
           className="text-sm text-gray-700 hover:text-black"
         >
@@ -57,12 +62,6 @@ function Nav({ scrollToProductGrid }) {
         </Link>
         <Link to="/profile" className="text-sm text-gray-700 hover:text-black">
           Profile
-        </Link>
-        <Link to="/blog" className="text-sm text-gray-700 hover:text-black">
-          Blog
-        </Link>
-        <Link to="/contact" className="text-sm text-gray-700 hover:text-black">
-          Contact Us
         </Link>
       </div>
       <div className="hidden items-center space-x-6 md:flex">

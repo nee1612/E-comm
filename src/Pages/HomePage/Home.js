@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import HomeComp from "../../Componetns/HomeComp";
 import Nav from "../../Componetns/Navbar";
 import ShopByCategories from "../../Componetns/ShopByCategories";
@@ -14,24 +14,34 @@ import Loader from "../../Componetns/Loader";
 function Home() {
   const productGridRef = useRef(null);
   const { loading } = useContext(UserContext);
+  const [loadingSec, setLoadingSec] = useState(true);
   const scrollToProductGrid = () => {
     if (productGridRef.current) {
       productGridRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoadingSec(false);
+    }, 700);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
-      {loading ? (
+      {loadingSec ? (
         <Loader />
       ) : (
         <div>
           <Nav scrollToProductGrid={scrollToProductGrid} />
-          <HomeComp />
+          <HomeComp scrollToProductGrid={scrollToProductGrid} />
           <ShopByCategories />
           <div ref={productGridRef}>
             <ProductGrid />
           </div>
-          <DealsOfTheMonth />
+          <DealsOfTheMonth scrollToProductGrid={scrollToProductGrid} />
           <ReviewCarousel />
 
           <InstagramStories pageType="home" />

@@ -204,7 +204,9 @@ const ProductPage = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-
+  const handleShopClick = () => {
+    navigate("/?scrollToProductGrid=true");
+  };
   return (
     <>
       <Nav />
@@ -232,7 +234,7 @@ const ProductPage = () => {
           </svg>
           <p
             className="text-sm font-semibold cursor-pointer md:mx-2"
-            onClick={() => navigate("/")}
+            onClick={handleShopClick}
           >
             Shop
           </p>

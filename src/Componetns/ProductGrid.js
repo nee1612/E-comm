@@ -1,16 +1,20 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { products } from "../ProductJSON/products"; // Update the import path as necessary
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { wishlistDb } from "../Config/firebase";
 import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import UserContext from "../Context/UserContext";
 import Cookies from "universal-cookie";
+
+import { useScroll } from "../Context/ScrollContext";
 const cookies = new Cookies();
 
 const ProductGrid = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { userDetails, wishlist, fetchWishlistItems } = useContext(UserContext);
+  const { productGridRef } = useScroll();
   const wishlistTitles = new Set(wishlist.map((item) => item.title)); // Use Set for fast lookup
   const refToken = cookies.get("auth-token");
   const wishlistRef = collection(wishlistDb, "wishlistDb");
@@ -122,9 +126,21 @@ const ProductGrid = () => {
     }
   };
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    if (queryParams.get("scrollToProductGrid") === "true") {
+      if (productGridRef.current) {
+        productGridRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location.search, productGridRef]);
+
   return (
     <>
-      <p className="flex justify-center text-3xl font-bold font-raleway">
+      <p
+        className="flex justify-center text-3xl font-bold font-raleway"
+        ref={productGridRef}
+      >
         Our Bestseller
       </p>
 

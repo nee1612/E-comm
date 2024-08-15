@@ -11,26 +11,29 @@ import UserContextProvider from "./Context/UserContextProvider";
 import Shipping from "./Pages/ShipingPage/Shipping";
 import Profile from "./Pages/ProfilePage/Profile";
 import Wishlist from "./Pages/WishlistPage/Wishlist";
+import { ScrollProvider } from "./Context/ScrollContext";
 
 function App() {
   return (
     <UserContextProvider>
-      <Router>
-        <div>
-          <ToastContainer />
-          <Routes>
-            <Route path="/" element={<Home />} />
+      <ScrollProvider>
+        <Router>
+          <div>
+            <ToastContainer />
+            <Routes>
+              <Route path="/" element={<Home />} />
 
-            <Route path="/product" element={<ProductPage />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/shipping" element={<Shipping />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signUp" element={<SignUp />} />
-          </Routes>
-        </div>
-      </Router>
+              <Route path="/product" element={<ProductPage />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/shipping" element={<Shipping />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signUp" element={<SignUp />} />
+            </Routes>
+          </div>
+        </Router>
+      </ScrollProvider>
     </UserContextProvider>
   );
 }

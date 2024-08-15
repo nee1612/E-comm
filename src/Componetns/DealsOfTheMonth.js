@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import yourImage from "../assets/daniel-monteiro-VMeHP3mNJL4-unsplash.jpg"; // Make sure to update the image path
 
-const DealsOfTheMonth = () => {
+const DealsOfTheMonth = ({ scrollToProductGrid }) => {
   const calculateTimeLeft = () => {
     let difference = +new Date("2024-09-30") - +new Date(); // Set your end date here
     let timeLeft = {};
@@ -57,12 +57,12 @@ const DealsOfTheMonth = () => {
             <div className="text-sm text-gray-500">Secs</div>
           </div>
         </div>
-        <Link
-          to="/products"
-          className="ml-4 mt-6 inline-block bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors"
+        <p
+          onClick={scrollToProductGrid}
+          className="cursor-pointer ml-4 mt-6 inline-block bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors"
         >
           View All Products →
-        </Link>
+        </p>
       </div>
       <div className="md:w-[40%]">
         <img

@@ -1,7 +1,7 @@
 import React from "react";
 import backgrounImg3 from "../assets/bgg.png";
 
-function HomeComp() {
+function HomeComp({ scrollToProductGrid }) {
   return (
     <div className="flex flex-col items-center   bg-gray-200 overflow-hidden">
       <div className="relative w-full max-w-6xl mx-auto  py-8">
@@ -10,7 +10,7 @@ function HomeComp() {
           <div className="absolute inset-0  md:-inset-10 md:left-4 md:-bottom-10  bg-cover bg-center ">
             <h1
               className="pseudoText  text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-gray-50 opacity-50
-             absolute bottom-8 left-8 md:bottom-20 md:left-32"
+             absolute bottom-8 left-8 md:bottom-14 md:left-32"
             >
               BESTSELLER
             </h1>
@@ -28,12 +28,12 @@ function HomeComp() {
                 Fashion Collection
               </h1>
               <p className="text-sm text-gray-500">UPTO 50% OFF</p>
-              <a
-                href="#"
-                className="inline-block bg-black text-white py-2 px-4 rounded-md mt-4 hover:bg-gray-800"
+              <p
+                onClick={scrollToProductGrid}
+                className="cursor-pointer inline-block bg-black text-white py-2 px-4 rounded-md mt-4 hover:bg-gray-800"
               >
                 Shop Now &rarr;
-              </a>
+              </p>
             </div>
 
             {/* Image and Frame */}

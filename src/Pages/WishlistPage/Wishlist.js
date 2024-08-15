@@ -61,6 +61,11 @@ function Wishlist() {
   useEffect(() => {
     fetchWishlist();
   }, [userDetails]);
+
+  const handleShopClick = () => {
+    navigate("/?scrollToProductGrid=true");
+  };
+
   return (
     <>
       <Nav />
@@ -112,7 +117,7 @@ function Wishlist() {
                 </svg>
                 <p
                   className="text-sm font-semibold cursor-pointer md:mx-2"
-                  onClick={() => navigate("/")}
+                  onClick={handleShopClick}
                 >
                   Shop
                 </p>

@@ -4,12 +4,12 @@ import UserContext from "./UserContext";
 import { collection, getDocs, query } from "firebase/firestore";
 
 const UserContextProvider = ({ children }) => {
+  const wishlistRef = collection(wishlistDb, "wishlistDb");
   const [userDetails, setUserDetails] = useState([]);
   const [discount, setDiscount] = useState(0);
   const [discountCode, setDiscountCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [cartList, setCartList] = useState([]);
-  const wishlistRef = collection(wishlistDb, "wishlistDb");
   const [wishlist, setWishlistSec] = useState([]);
 
   const applyDiscount = (code) => {
