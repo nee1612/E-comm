@@ -45,7 +45,7 @@ function Wishlist() {
     try {
       await deleteDoc(doc(wishlistRef, id));
       const updatedWishlist = wishlist.filter((item) => item.id !== id);
-      setWishlist(updatedWishlist);
+      setWishlistSec(updatedWishlist);
       fetchWishlist();
       toast.success("Item removed from wishlist", {
         position: "top-center",

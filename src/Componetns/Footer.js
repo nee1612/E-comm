@@ -80,22 +80,22 @@ const Footer = () => {
             <h3 className="font-semibold mb-1 sm:mb-4">Information</h3>
             <ul>
               <li className=" sm:mb-2">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-white">
                   My Account
                 </a>
               </li>
               <li className="sm:mb-2">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-white">
                   Login
                 </a>
               </li>
               <li className="sm:mb-2">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-white">
                   My Cart
                 </a>
               </li>
               <li className="sm:mb-2">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-white">
                   My Wishlist
                 </a>
               </li>
@@ -107,22 +107,22 @@ const Footer = () => {
             <h3 className="font-semibold mb-1  sm:mb-4">Service</h3>
             <ul>
               <li className="sm:mb-2">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-white">
                   About Us
                 </a>
               </li>
               <li className="sm:mb-2">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-white">
                   Careers
                 </a>
               </li>
               <li className="sm:mb-2">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-white">
                   Delivery Information
                 </a>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-white">
                   Privacy Policy
                 </a>
               </li>
