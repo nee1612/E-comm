@@ -132,12 +132,9 @@ function LoginPage() {
                 <label className="flex items-center"></label>
               </div>
               <div>
-                <a
-                  href="#"
-                  className="text-sm text-black font-semibold hover:underline"
-                >
+                <p className="text-sm text-black font-semibold hover:underline">
                   Forgot Password?
-                </a>
+                </p>
               </div>
             </div>
             <button
