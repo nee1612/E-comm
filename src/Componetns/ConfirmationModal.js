@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BsBagCheckFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../Context/UserContext";
 const ConfirmationModal = ({ isVisible, onClose }) => {
+  const { clearCart } = useContext(UserContext);
   const navigate = useNavigate();
   if (!isVisible) return null;
   return (
@@ -22,6 +24,7 @@ const ConfirmationModal = ({ isVisible, onClose }) => {
           <button
             onClick={() => {
               onClose();
+              clearCart();
               navigate("/profile");
             }}
             className="bg-black text-white px-4 py-2 rounded-md mb-2 w-full"
@@ -31,6 +34,7 @@ const ConfirmationModal = ({ isVisible, onClose }) => {
           <button
             onClick={() => {
               onClose();
+              clearCart();
               navigate("/");
             }}
             className="text-black border border-black px-4 py-2 rounded-md w-full"
