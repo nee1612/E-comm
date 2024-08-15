@@ -1,4 +1,5 @@
 import React from "react";
+import AddAddress from "./AddAddress";
 
 function Address({
   addresses,
@@ -39,10 +40,7 @@ function Address({
                 />
               </div>
               <div className="flex justify-between">
-                <button className="border p-2 rounded">Edit</button>
-                <button className="border p-2 rounded text-red-500">
-                  Delete
-                </button>
+                <button className="border px-5 py-1 rounded">Edit</button>
               </div>
             </div>
           ))}
@@ -56,6 +54,8 @@ function Address({
           Deliver Here
         </button>
       )}
+      <hr className="mt-11 mx-5" />
+      <AddAddress />
     </>
   );
 }

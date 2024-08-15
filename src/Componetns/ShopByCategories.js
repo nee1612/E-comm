@@ -26,8 +26,8 @@ const categories = [
 const ShopByCategories = () => {
   return (
     <div className="p-8 font-raleway">
-      <h1 className="text-3xl font-bold mb-8">Shop by Categories</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <h1 className="text-3xl font-bold mb-8 ">Shop by Categories</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mx-3">
         {categories.map((category, index) => (
           <div
             key={index}

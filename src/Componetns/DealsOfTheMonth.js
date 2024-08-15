@@ -68,7 +68,7 @@ const DealsOfTheMonth = () => {
         <img
           src={yourImage}
           alt="Deals of the Month"
-          className="w-auto h-[38rem] rounded-lg"
+          className="w-auto h-[35rem] rounded-lg object-cover"
         />
       </div>
     </div>

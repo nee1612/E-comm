@@ -8,7 +8,7 @@ import user4 from "../assets/$RPSISKI.jpg";
 const InstagramStories = ({ pageType }) => {
   const images = [
     {
-      src: user1, // Replace with your image URLs
+      src: user1,
       alt: "Image 1",
     },
     {
@@ -27,9 +27,6 @@ const InstagramStories = ({ pageType }) => {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 font-raleway">
-      {/* <h2 className="text-center text-3xl font-semibold mb-8">
-        Our Instagram Stories
-      </h2> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {images.map((image, index) => (
           <div
@@ -51,8 +48,8 @@ const InstagramStories = ({ pageType }) => {
           </div>
         ))}
       </div>
-      <div className="flex gap-[3rem] items-center mt-10">
-        <div className=" items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-center mt-10 gap-6">
+        <div className="flex flex-col items-center text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -60,10 +57,10 @@ const InstagramStories = ({ pageType }) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-truck"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-truck"
           >
             <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
             <path d="M15 18H9" />
@@ -72,11 +69,11 @@ const InstagramStories = ({ pageType }) => {
             <circle cx="7" cy="18" r="2" />
           </svg>
           <div className="text-xl font-semibold mt-2">Free Shipping</div>
-          <div className="text-gray-500">
-            Free shipping for order above $150
+          <div className="text-gray-500 text-sm">
+            Free shipping for orders above $150
           </div>
         </div>
-        <div className=" items-center">
+        <div className="flex flex-col items-center text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -84,19 +81,21 @@ const InstagramStories = ({ pageType }) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-circle-dollar-sign"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-circle-dollar-sign"
           >
             <circle cx="12" cy="12" r="10" />
             <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
             <path d="M12 18V6" />
           </svg>
           <div className="text-xl font-semibold mt-2">Money Guarantee</div>
-          <div className="text-gray-500">Within 30 days for an exchange</div>
+          <div className="text-gray-500 text-sm">
+            Within 30 days for an exchange
+          </div>
         </div>
-        <div className="items-center">
+        <div className="flex flex-col items-center text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -104,18 +103,20 @@ const InstagramStories = ({ pageType }) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-headset"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-headset"
           >
             <path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z" />
             <path d="M21 16v2a4 4 0 0 1-4 4h-5" />
           </svg>
           <div className="text-xl font-semibold mt-2">Online Support</div>
-          <div className="text-gray-500">24 hours a day, 7 days a week</div>
+          <div className="text-gray-500 text-sm">
+            24 hours a day, 7 days a week
+          </div>
         </div>
-        <div className=" items-center">
+        <div className="flex flex-col items-center text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -123,16 +124,18 @@ const InstagramStories = ({ pageType }) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-wallet-minimal"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-wallet-minimal"
           >
             <path d="M17 14h.01" />
             <path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14" />
           </svg>
           <div className="text-xl font-semibold mt-2">Flexible Payment</div>
-          <div className="text-gray-500">Pay with multiple credit cards</div>
+          <div className="text-gray-500 text-sm">
+            Pay with multiple credit cards
+          </div>
         </div>
       </div>
     </div>

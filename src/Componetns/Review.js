@@ -1,37 +1,27 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-import { userCartItems } from "../Config/firebase";
-import { getDocs, collection, query, deleteDoc, doc } from "firebase/firestore";
+import { userCartItems, confirmOrder } from "../Config/firebase";
+import {
+  getDocs,
+  collection,
+  query,
+  deleteDoc,
+  doc,
+  addDoc,
+} from "firebase/firestore";
 import UserContext from "../Context/UserContext";
 import Loader from "./Loader";
 
-const Review = ({ selectedAddress, addresses, selectedPaymentMethod }) => {
+const Review = ({
+  selectedAddress,
+  addresses,
+  selectedPaymentMethod,
+  cartList,
+}) => {
   const address = addresses.find((addr) => addr.id === selectedAddress);
   const { userDetails } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const [cartList, setCartList] = useState([]);
-  const cartItemsRef = collection(userCartItems, "cartItems");
-  const fetchCartItems = async () => {
-    setLoading(true);
-    try {
-      const cartIt = await getDocs(query(cartItemsRef));
-      const filterItemByUser = cartIt.docs.filter(
-        (doc) => doc.data().userId === userDetails.uid
-      );
-      const cartItems = filterItemByUser.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setCartList(cartItems);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchCartItems();
-  }, [userDetails.uid]);
+  const orderRef = collection(confirmOrder, "confirmOrder");
 
   return (
     <>

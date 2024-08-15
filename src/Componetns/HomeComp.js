@@ -1,45 +1,50 @@
 import React from "react";
-
 import backgrounImg3 from "../assets/bgg.png";
 
 function HomeComp() {
   return (
-    <div className="flex   justify-center min-h-screen bg-gray-50">
-      <div className="relative w-full max-w-6xl mx-auto px-8 py-1">
-        <div className="absolute inset-0  bg-cover bg-center overflow-hidden ">
-          <h1 className="text-[13rem] font-extrabold text-gray-200 absolute bottom-20 left-32">
-            BESTSELLER
-          </h1>
-        </div>
-
-        <div className="relative z-10 flex justify-between  font-raleway ">
-          <div className="w-[60%]  space-y-4 mt-20 pl-[3rem]">
-            <h2 className="text-2xl text-gray-500">Classic Exclusive</h2>
-            <h1 className="text-4xl font-bold text-black">
-              Women's Collection
-            </h1>
-            <p className="text-sm text-gray-500">UPTO 40% OFF</p>
-            <a
-              href="#"
-              className="inline-block bg-black text-white py-2 px-4 rounded-md mt-4 hover:bg-gray-800"
+    <div className="flex flex-col items-center   bg-gray-200 overflow-hidden">
+      <div className="relative w-full max-w-6xl mx-auto  py-8">
+        {/* Background Section */}
+        <div className="relative w-full mb-8 ">
+          <div className="absolute inset-0  md:-inset-10 md:left-4 md:-bottom-10  bg-cover bg-center ">
+            <h1
+              className="pseudoText  text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-gray-50 opacity-50
+             absolute bottom-8 left-8 md:bottom-20 md:left-32"
             >
-              Shop Now &rarr;
-            </a>
+              BESTSELLER
+            </h1>
+            <h1 className="pseudoText2 text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-gray-50 opacity-50 absolute bottom-8 left-8 md:bottom-20 md:left-32">
+              FASHION
+            </h1>
           </div>
 
-          <div className="relative w-full max-w-[50%]">
-            <img
-              src={backgrounImg3}
-              alt="Women's Collection"
-              className="object-cover w-full h-auto "
-            />
-            <div
-              className="absolute  top-[1.6rem] right-[6.3rem] p-4 border-gray-400 border-[10px] transform rotate-6  pointer-events-none"
-              style={{
-                width: "calc(100% - 12rem)",
-                height: "calc(100% - 4rem)",
-              }}
-            ></div>
+          {/* Content Section */}
+          <div className="relative  z-10 flex flex-col-reverse md:flex-row     md:justify-between font-raleway">
+            {/* Text Content */}
+            <div className="w-full md:w-[65%] space-y-4 mt-8  md:mt-28 md:pl-10 text-center md:text-left">
+              <h2 className="text-2xl text-gray-500">Classic Exclusive</h2>
+              <h1 className="text-3xl md:text-4xl font-bold text-black">
+                Fashion Collection
+              </h1>
+              <p className="text-sm text-gray-500">UPTO 50% OFF</p>
+              <a
+                href="#"
+                className="inline-block bg-black text-white py-2 px-4 rounded-md mt-4 hover:bg-gray-800"
+              >
+                Shop Now &rarr;
+              </a>
+            </div>
+
+            {/* Image and Frame */}
+            <div className="homeBg relative w-full    md:w-[50%] mt-8 md:mt-0">
+              <img
+                src={backgrounImg3}
+                alt="Women's Collection"
+                className="object-cover w-full h-auto"
+              />
+              <div className="pseuElemFrame absolute top-4 right-[4.5rem] p-2 border-gray-400 opacity-60 border-[8px] transform rotate-6 pointer-events-none"></div>
+            </div>
           </div>
         </div>
       </div>

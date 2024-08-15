@@ -24,7 +24,7 @@ const PaymentForm = ({ handleSubmitPayment }) => {
   };
 
   return (
-    <div className="w-full max-w-[80%] mx-auto p-6">
+    <div className="w-full  p-6">
       <div className="space-y-6">
         {/* Debit/Credit Card */}
         <div>

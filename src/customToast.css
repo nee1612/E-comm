@@ -2,13 +2,13 @@
   background-color: #232d3f !important;
   color: white !important;
 
-  font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif !important;
 }
 
 .custom-toast-error {
-  background-color: #f44336 !important;
+  background-color: #232d3f !important;
   color: white !important;
-  font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif !important;
 }
 .Toastify__close-button {
   color: white !important;
