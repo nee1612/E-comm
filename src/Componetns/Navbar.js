@@ -77,7 +77,10 @@ function Nav() {
             <circle cx="12" cy="7" r="4" />
           </svg>
         </Link>
-        <Link to="#" className="text-gray-700 no-underline hover:text-black">
+        <Link
+          to="/wishlist"
+          className="text-gray-700 no-underline hover:text-black"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

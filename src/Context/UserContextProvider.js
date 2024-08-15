@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { auth, userCartItems } from "../Config/firebase";
+import { auth, userCartItems, wishlistDb } from "../Config/firebase";
 import UserContext from "./UserContext";
 import { collection, getDocs, query } from "firebase/firestore";
 
@@ -9,6 +9,8 @@ const UserContextProvider = ({ children }) => {
   const [discountCode, setDiscountCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [cartList, setCartList] = useState([]);
+  const wishlistRef = collection(wishlistDb, "wishlistDb");
+  const [wishlist, setWishlist] = useState([]);
 
   const applyDiscount = (code) => {
     setDiscount(code === "FLAT50" ? 0.5 : 0);
@@ -40,12 +42,37 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
+  const fetchWishlistItems = async () => {
+    setLoading(true);
+    try {
+      if (userDetails) {
+        const wishlistItems = await getDocs(query(wishlistRef));
+        const filterItemByUser = wishlistItems.docs.filter(
+          (doc) => doc.data().userId === userDetails.uid
+        );
+        const wishlistItemsSec = filterItemByUser.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log("wishlistItems", wishlistItemsSec);
+        setWishlist(wishlistItemsSec);
+      } else {
+        setWishlist([]);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     auth.onAuthStateChanged((user) => {
       if (user) {
         fetchCartItems();
         setUserDetails(user);
+        fetchWishlistItems();
       }
       setLoading(false);
     });
@@ -63,6 +90,8 @@ const UserContextProvider = ({ children }) => {
         cartList,
         setCartList, // Optionally expose to update cartList directly
         clearCart: () => setCartList([]), // Method to clear cartList
+        wishlist,
+        fetchWishlistItems,
       }}
     >
       {children}

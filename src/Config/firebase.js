@@ -18,6 +18,7 @@ export const auth = getAuth();
 export const userCred = getFirestore(SignUp);
 export const userCartItems = getFirestore();
 export const confirmOrder = getFirestore();
+export const wishlistDb = getFirestore();
 export const googleProvider = new GoogleAuthProvider();
 export const getCurrentUser = () => {
   const currentUser = auth.currentUser;

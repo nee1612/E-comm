@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { IoIosAdd, IoIosRemove } from "react-icons/io";
-import user1 from "../../assets/Rectangle 3463273.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Nav from "../../Componetns/Navbar";
 import { userCartItems } from "../../Config/firebase";
@@ -21,21 +19,24 @@ const Cart = () => {
     setDiscountCode,
     applyDiscount,
     discount,
+    setCartList,
+    clearCart,
   } = useContext(UserContext);
   const navigate = useNavigate();
   const cartItemsRef = collection(userCartItems, "cartItems");
-  const [cartList, setCartList] = useState([]);
+  const [cartList, setCartListIt] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleRemoveItem = async (id) => {
     try {
       await deleteDoc(doc(cartItemsRef, id));
+      const updatedCartList = cartList.filter((item) => item.id !== id);
+      setCartList(updatedCartList);
       toast.success("Item removed from cart", {
         position: "top-center",
         className: "custom-toast-success",
         bodyClassName: "customToast",
       });
-
       fetchCartItems();
     } catch (err) {
       console.error(err);
@@ -71,7 +72,7 @@ const Cart = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setCartList(cartItems);
+      setCartListIt(cartItems);
       setLoading(false);
     } catch (err) {
       console.error(err);

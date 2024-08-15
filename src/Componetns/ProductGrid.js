@@ -1,13 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { products } from "../ProductJSON/products"; // Update the import path as necessary
 import { useNavigate } from "react-router-dom";
-
-const shuffleArray = (array) => {
-  return array.sort(() => Math.random() - 0.5);
-};
+import { wishlistDb } from "../Config/firebase";
+import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import UserContext from "../Context/UserContext";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const ProductGrid = () => {
   const navigate = useNavigate();
+  const { userDetails, wishlist, fetchWishlistItems } = useContext(UserContext);
+  const wishlistTitles = new Set(wishlist.map((item) => item.title)); // Use Set for fast lookup
+
+  const wishlistRef = collection(wishlistDb, "wishlistDb");
   const { casualWear, westernWear, kidsWear, ethnicWear } =
     products[0].categories;
 
@@ -17,29 +23,18 @@ const ProductGrid = () => {
     ...kidsWear,
     ...ethnicWear,
   ];
-
-  const shuffledProducts = shuffleArray(allProducts);
-
+  // No shuffling, use allProducts directly
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
-
-  // Calculate the index of the first and last product on the current page
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-
-  // Get the current products to display
-  const currentProducts = shuffledProducts.slice(
+  const currentProducts = allProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(shuffledProducts.length / productsPerPage);
-
-  // Create a ref for the top of the component
+  const totalPages = Math.ceil(allProducts.length / productsPerPage);
   const topRef = useRef(null);
 
-  // Handle page change with scroll to top
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     if (topRef.current) {
@@ -49,28 +44,19 @@ const ProductGrid = () => {
 
   const navigateToProductPage = (e, product) => {
     e.preventDefault();
-
-    navigate("/product", {
-      state: product,
-    });
+    navigate("/product", { state: product });
   };
 
-  // Calculate which page numbers to display
   const pageNumbersToShow = () => {
-    const totalPages = Math.ceil(shuffledProducts.length / productsPerPage);
     const pagesToShow = 3; // Number of page numbers to show
-
     let pages = [];
 
-    // Handle edge cases when there are fewer pages than the number to display
     if (totalPages <= pagesToShow) {
       pages = Array.from({ length: totalPages }, (_, i) => i + 1);
     } else {
-      // Determine the range of pages to display
       const startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
       const endPage = Math.min(totalPages, startPage + pagesToShow - 1);
 
-      // Adjust startPage if endPage exceeds totalPages
       if (endPage - startPage + 1 < pagesToShow) {
         pages = Array.from(
           { length: pagesToShow },
@@ -84,10 +70,59 @@ const ProductGrid = () => {
     return pages;
   };
 
-  const handleWishlistClick = (e, product) => {
+  const handleWishlistClick = async (e, product) => {
     e.stopPropagation();
-    console.log("Added to wishlist:", product);
+    const token = cookies.get("auth-token");
+
+    if (!token) {
+      toast.error("Please login first", {
+        position: "top-center",
+        className: "custom-toast-error",
+        bodyClassName: "customToast",
+      });
+      return;
+    }
+
+    try {
+      const productInWishlist = wishlistTitles.has(product.title);
+
+      if (productInWishlist) {
+        // Remove from wishlist
+        const itemDoc = wishlist.find((item) => item.title === product.title);
+        await deleteDoc(doc(wishlistRef, itemDoc.id));
+        toast.success("Removed from wishlist", {
+          position: "top-center",
+          className: "custom-toast-success",
+          bodyClassName: "customToast",
+        });
+      } else {
+        // Add to wishlist
+        await addDoc(wishlistRef, {
+          userId: userDetails.uid,
+          title: product.title,
+          label: product.label,
+          rating: product.rating,
+          image: product.image,
+          price: product.price,
+        });
+        toast.success("Added to wishlist", {
+          position: "top-center",
+          className: "custom-toast-success",
+          bodyClassName: "customToast",
+        });
+      }
+
+      fetchWishlistItems();
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred", {
+        position: "top-center",
+        className: "custom-toast-error",
+        bodyClassName: "customToast",
+      });
+    }
   };
+
   return (
     <>
       <p className="flex justify-center text-3xl font-bold font-raleway">
@@ -102,10 +137,7 @@ const ProductGrid = () => {
 
             return (
               <div
-                onClick={(e) => {
-                  // Navigate to the product detail page
-                  navigateToProductPage(e, product);
-                }}
+                onClick={(e) => navigateToProductPage(e, product)}
                 key={index}
                 className="relative p-4 rounded-md bg-white shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
               >
@@ -120,13 +152,13 @@ const ProductGrid = () => {
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
+                    fill={wishlistTitles.has(product.title) ? "red" : "none"}
+                    stroke={wishlistTitles.has(product.title) ? "red" : "white"}
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="lucide lucide-heart absolute top-2 right-2 text-white text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
-                    onClick={(e) => handleWishlistClick(e, product)} // Handle heart click
+                    className="lucide lucide-heart absolute top-2 right-2 text-xl opacity-100 transition-opacity duration-300 cursor-pointer"
+                    onClick={(e) => handleWishlistClick(e, product)}
                   >
                     <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                   </svg>
@@ -157,7 +189,6 @@ const ProductGrid = () => {
 
         {/* Pagination Controls */}
         <div className="flex flex-wrap justify-center mt-8">
-          {/* Previous Button */}
           <button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
@@ -166,7 +197,6 @@ const ProductGrid = () => {
             Previous
           </button>
 
-          {/* Page Numbers */}
           {pageNumbersToShow().map((page, index) =>
             page === "..." ? (
               <span
@@ -190,7 +220,6 @@ const ProductGrid = () => {
             )
           )}
 
-          {/* Next Button */}
           <button
             onClick={() => paginate(currentPage + 1)}
             disabled={currentPage === totalPages}
