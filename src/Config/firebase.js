@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 import SignUp from "../Pages/SignUpPage/SignUp";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC2edMfu9kH7MjxuqDRSSazuM1abFhZq3c",
-  authDomain: "krist-33bba.firebaseapp.com",
-  projectId: "krist-33bba",
-  storageBucket: "krist-33bba.appspot.com",
-  messagingSenderId: "68032946745",
-  appId: "1:68032946745:web:de265e6c5c5e8dff58e3e8",
-  measurementId: "G-Y5B9D4X9ED",
+  apiKey: `${process.env.REACT_APP_FIREBASE_CONFIG_KEY}`,
+  authDomain: `${process.env.REACT_APP_FIREBASE_AUTHDOMAIN}`,
+  projectId: `${process.env.REACT_APP_FIREBASE_PROJECT_ID}`,
+  storageBucket: `${process.env.REACT_APP_FIREBASE_STORAGE_BUCKET}`,
+  messagingSenderId: `${process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID}`,
+  appId: `${process.env.REACT_APP_FIREBASE_APP_ID}`,
+  measurementId: `${process.env.REACT_APP_FIREBASE_MEASUREMENT_ID}`,
 };
 
 const app = initializeApp(firebaseConfig);
