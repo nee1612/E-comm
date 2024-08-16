@@ -15,10 +15,33 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        // raleway: ['"Raleway"', "sans-serif"],
         raleway: ['"Jost"', "sans-serif"],
-        // font-family: "Radio Canada Big", sans-serif;
         "radio-canada": ['"Radio Canada Big"', "sans-serif"],
+      },
+      keyframes: {
+        fadeInFromRight: {
+          "0%": { opacity: "0", transform: "translateX(60px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        fadeInFromLeft: {
+          "0%": { opacity: "0", transform: "translateX(-60px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        slideInFromTop: {
+          "0%": { opacity: "0", transform: "translateY(-40px)" },
+
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        slideInFromBottom: {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        fadeInFromRight: "fadeInFromRight 1.7s ease-out",
+        fadeInFromLeft: "fadeInFromLeft 1.7s ease-out",
+        slideInFromTop: "slideInFromTop 1.5s ease-out",
+        slideInFromBottom: "slideInFromBottom 1s ease-out",
       },
     },
   },

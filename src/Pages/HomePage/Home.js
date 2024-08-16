@@ -36,7 +36,10 @@ function Home() {
       ) : (
         <div>
           <Nav scrollToProductGrid={scrollToProductGrid} />
-          <HomeComp scrollToProductGrid={scrollToProductGrid} />
+          <HomeComp
+            scrollToProductGrid={scrollToProductGrid}
+            loading={loading}
+          />
           <ShopByCategories />
           <div ref={productGridRef}>
             <ProductGrid />

@@ -6,8 +6,8 @@ import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import UserContext from "../Context/UserContext";
 import Cookies from "universal-cookie";
-
 import { useScroll } from "../Context/ScrollContext";
+
 const cookies = new Cookies();
 
 const ProductGrid = () => {
@@ -20,7 +20,6 @@ const ProductGrid = () => {
   const wishlistRef = collection(wishlistDb, "wishlistDb");
   const { casualWear, westernWear, kidsWear, ethnicWear } =
     products[0].categories;
-
   const allProducts = [
     ...casualWear,
     ...westernWear,
@@ -37,6 +36,7 @@ const ProductGrid = () => {
   );
   const totalPages = Math.ceil(allProducts.length / productsPerPage);
   const topRef = useRef(null);
+  const gridRef = useRef(null); // Ref for the grid container
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -127,13 +127,23 @@ const ProductGrid = () => {
   };
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    if (queryParams.get("scrollToProductGrid") === "true") {
-      if (productGridRef.current) {
-        productGridRef.current.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [location.search, productGridRef]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-slideInFromBottom");
+          // Stop observing after animation has been applied
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.01 }
+    );
+
+    if (gridRef.current) observer.observe(gridRef.current);
+
+    return () => {
+      if (gridRef.current) observer.unobserve(gridRef.current);
+    };
+  }, []);
 
   return (
     <>
@@ -145,7 +155,7 @@ const ProductGrid = () => {
       </p>
 
       <div ref={topRef} className="p-8 font-raleway mx-3">
-        <div className="grid gap-7 prodGrid">
+        <div ref={gridRef} className="grid gap-7 prodGrid ">
           {currentProducts.map((product, index) => {
             const dummyOriginalPrice = (product.price * 1.3).toFixed(2);
             const discountedPrice = product.price.toFixed(2);

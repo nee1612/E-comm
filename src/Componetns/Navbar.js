@@ -63,6 +63,9 @@ function Nav() {
         <Link to="/profile" className="text-sm text-gray-700 hover:text-black">
           Profile
         </Link>
+        <Link to="/about" className="text-sm text-gray-700 hover:text-black">
+          About Us
+        </Link>
       </div>
       <div className="hidden items-center space-x-6 md:flex">
         <Link to="/profile" className="text-gray-700 hover:text-black">

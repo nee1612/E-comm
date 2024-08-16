@@ -1,7 +1,18 @@
 import React from "react";
+import { useEffect, useRef } from "react";
 import backgrounImg3 from "../assets/bgg.png";
 
-function HomeComp({ scrollToProductGrid }) {
+function HomeComp({ scrollToProductGrid, loading }) {
+  const textRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    // Trigger animations when the component mounts
+    if (textRef.current && imageRef.current) {
+      textRef.current.classList.add("animate-fadeInFromRight");
+      imageRef.current.classList.add("animate-fadeInFromLeft");
+    }
+  }, [loading]);
   return (
     <div className="flex flex-col items-center   bg-gray-200 overflow-hidden">
       <div className="relative w-full max-w-6xl mx-auto  py-8">
@@ -9,20 +20,23 @@ function HomeComp({ scrollToProductGrid }) {
         <div className="relative w-full mb-8 ">
           <div className="absolute inset-0  md:-inset-10 md:left-4 md:-bottom-10  bg-cover bg-center ">
             <h1
-              className="pseudoText  text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-gray-50 opacity-50
-             absolute bottom-8 left-8 md:bottom-14 md:left-32"
+              className="pseudoText  text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-[#eff0f3]
+             absolute bottom-8 left-8 md:bottom-14 md:left-32 animate-slideInFromTop"
             >
               BESTSELLER
             </h1>
-            <h1 className="pseudoText2 text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-gray-50 opacity-50 absolute bottom-8 left-8 md:bottom-20 md:left-32">
+            <h1 className="pseudoText2 slideInFromBottom text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-gray-50 opacity-50 absolute bottom-8 left-8 md:bottom-20 md:left-32">
               FASHION
             </h1>
           </div>
 
           {/* Content Section */}
-          <div className="relative  z-10 flex flex-col-reverse md:flex-row     md:justify-between font-raleway">
+          <div className="relative z-10 flex flex-col-reverse md:flex-row md:justify-between font-raleway">
             {/* Text Content */}
-            <div className="w-full md:w-[65%] space-y-4 mt-8  md:mt-28 md:pl-10 text-center md:text-left">
+            <div
+              ref={textRef}
+              className="w-full md:w-[65%] space-y-4 mt-8 md:mt-28 md:pl-10 text-center md:text-left opacity-1"
+            >
               <h2 className="text-2xl text-gray-500">Classic Exclusive</h2>
               <h1 className="text-3xl md:text-4xl font-bold text-black">
                 Fashion Collection
@@ -37,7 +51,10 @@ function HomeComp({ scrollToProductGrid }) {
             </div>
 
             {/* Image and Frame */}
-            <div className="homeBg relative w-full    md:w-[50%] mt-8 md:mt-0">
+            <div
+              ref={imageRef}
+              className="homeBg relative w-full md:w-[50%] mt-8 md:mt-0 opacity-1"
+            >
               <img
                 src={backgrounImg3}
                 alt="Women's Collection"

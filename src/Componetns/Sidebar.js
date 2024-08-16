@@ -81,7 +81,7 @@ function Sidebar({ isOpen, closeSidebar, logOut, refToken }) {
               My Wishlist
             </Link>
             <Link
-              to="#"
+              to="/about"
               className="text-lg font-semibold hover:text-gray-700 flex items-center gap-3"
             >
               <IoInformationCircle size={30} />
