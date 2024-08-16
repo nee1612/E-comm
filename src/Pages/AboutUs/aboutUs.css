@@ -1,0 +1,54 @@
+/* AboutUs.css */
+
+/* Styling for large text on the left */
+.relative .container::before {
+  content: "fashion";
+  position: absolute;
+  top: 50px;
+  left: 0;
+  font-size: 12rem;
+  color: #f3f4f6;
+  font-weight: bold;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+/* Styling for diagonal text */
+.relative .container .rotate-45 {
+  transform: rotate(-45deg);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: #000;
+}
+
+/* Styling for small text on the right */
+.relative .container .top-0 {
+  top: -30px;
+  right: -50px;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #000;
+}
+
+/* Additional styles for button */
+.relative .container button {
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Image styling */
+.relative img {
+  border-radius: 10px;
+}
+
+/* Text inside images */
+.relative .container p {
+  font-size: 1rem;
+  color: #6b7280;
+}

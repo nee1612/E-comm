@@ -67,6 +67,10 @@ function LoginPage() {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <div className="flex flex-col lg:flex-row ">
       {/* Left Section */}
@@ -132,9 +136,12 @@ function LoginPage() {
                 <label className="flex items-center"></label>
               </div>
               <div>
-                <p className="text-sm text-black font-semibold hover:underline">
+                <Link
+                  to="/forget"
+                  className=" cursor-pointer text-sm text-black font-semibold hover:underline"
+                >
                   Forgot Password?
-                </p>
+                </Link>
               </div>
             </div>
             <button

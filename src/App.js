@@ -12,6 +12,8 @@ import Shipping from "./Pages/ShipingPage/Shipping";
 import Profile from "./Pages/ProfilePage/Profile";
 import Wishlist from "./Pages/WishlistPage/Wishlist";
 import { ScrollProvider } from "./Context/ScrollContext";
+import ForgetPage from "./Pages/ForgetPassword/ForgetPage";
+import AboutUs from "./Pages/AboutUs/AboutUsPage";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/forget" element={<ForgetPage />} />
+              <Route path="/about" element={<AboutUs />} />
               <Route path="/signUp" element={<SignUp />} />
             </Routes>
           </div>

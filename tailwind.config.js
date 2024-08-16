@@ -15,7 +15,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        raleway: ['"Raleway"', "sans-serif"],
+        // raleway: ['"Raleway"', "sans-serif"],
+        raleway: ['"Jost"', "sans-serif"],
         // font-family: "Radio Canada Big", sans-serif;
         "radio-canada": ['"Radio Canada Big"', "sans-serif"],
       },
