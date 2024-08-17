@@ -3,47 +3,45 @@ import { useState } from "react";
 import Logo from "./../assets/image.png"; // Update the path to your logo
 import emailjs from "emailjs-com";
 import { toast } from "react-toastify";
-
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
 
     const templateParams = {
+      to_email: email,
+
       user_email: email,
     };
 
-    // emailjs
-    //   .send(
-    //     "service_9zo2tlv",
-    //     "template_7msteqi",
-    //     templateParams,
-    //     "U48J8PfQwkYnnO9yE"
-    //   )
-    //   .then(
-    //     (response) => {
-    //       console.log("SUCCESS!", response.status, response.text);
-    //       toast.success("Subscription successful", {
-    //         position: "top-center",
-    //         className: "custom-toast-success",
-    //         bodyClassName: "customToast",
-    //         autoClose: 3000,
-    //       });
-    //       setEmail("");
-    //       window.scrollTo(0, 0);
-    //     },
-    //     (error) => {
-    //       console.log("FAILED...", error);
-    //       alert("Subscription failed. Please try again.");
-    //     }
-    //   );
-    toast.success("Subscription successful", {
-      position: "top-center",
-      className: "custom-toast-success",
-      bodyClassName: "customToast",
-      autoClose: 3000,
-    });
+    setLoading(true);
+    emailjs
+      .send(
+        "service_9zo2tlv",
+        "template_7msteqi",
+        templateParams,
+        "U48J8PfQwkYnnO9yE"
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+          toast.success("Subscription successful", {
+            position: "top-center",
+            className: "custom-toast-success",
+            bodyClassName: "customToast",
+            autoClose: 3000,
+          });
+          setLoading(false);
+          setEmail("");
+          window.scrollTo(0, 0);
+        },
+        (error) => {
+          console.log("FAILED...", error);
+          alert("Subscription failed. Please try again.");
+        }
+      );
   };
   return (
     <footer className="bg-black text-white py-8">
@@ -209,21 +207,42 @@ const Footer = () => {
                 onClick={(e) => handleSubscribe(e)}
                 className="p-3 bg-transparent text-gray-400 hover:bg-gray-700 hover:text-white"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-move-right"
-                >
-                  <path d="M18 8L22 12L18 16" />
-                  <path d="M2 12H22" />
-                </svg>
+                {loading ? (
+                  <div className="animate-bounce">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-arrow-up-from-line"
+                    >
+                      <path d="m18 9-6-6-6 6" />
+                      <path d="M12 3v14" />
+                      <path d="M5 21h14" />
+                    </svg>
+                  </div>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-move-right"
+                  >
+                    <path d="M18 8L22 12L18 16" />
+                    <path d="M2 12H22" />
+                  </svg>
+                )}
               </button>
             </form>
           </div>
