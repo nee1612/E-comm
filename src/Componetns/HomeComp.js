@@ -56,9 +56,8 @@ function HomeComp({ scrollToProductGrid, loading }) {
               className="homeBg relative w-full md:w-[50%] mt-8 md:mt-0 opacity-1"
             >
               <img
-                // src={backgrounImg3}
-                src="https://res.cloudinary.com/codemingle/image/upload/v1723848777/bgg1_eycsgb.png"
-                alt="Women's Collection"
+                src={backgrounImg3}
+                alt="https://res.cloudinary.com/codemingle/image/upload/v1723848777/bgg1_eycsgb.png"
                 className="object-cover w-full h-auto"
               />
               <div className="pseuElemFrame absolute top-4 right-[4.5rem] p-2 border-gray-400 opacity-60 border-[8px] transform rotate-6 pointer-events-none"></div>

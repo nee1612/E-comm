@@ -14,30 +14,36 @@ const Footer = () => {
       user_email: email,
     };
 
-    emailjs
-      .send(
-        "service_9zo2tlv",
-        "template_7msteqi",
-        templateParams,
-        "U48J8PfQwkYnnO9yE"
-      )
-      .then(
-        (response) => {
-          console.log("SUCCESS!", response.status, response.text);
-          toast.success("Subscription successful", {
-            position: "top-center",
-            className: "custom-toast-success",
-            bodyClassName: "customToast",
-            autoClose: 3000,
-          });
-          setEmail("");
-          window.scrollTo(0, 0);
-        },
-        (error) => {
-          console.log("FAILED...", error);
-          alert("Subscription failed. Please try again.");
-        }
-      );
+    // emailjs
+    //   .send(
+    //     "service_9zo2tlv",
+    //     "template_7msteqi",
+    //     templateParams,
+    //     "U48J8PfQwkYnnO9yE"
+    //   )
+    //   .then(
+    //     (response) => {
+    //       console.log("SUCCESS!", response.status, response.text);
+    //       toast.success("Subscription successful", {
+    //         position: "top-center",
+    //         className: "custom-toast-success",
+    //         bodyClassName: "customToast",
+    //         autoClose: 3000,
+    //       });
+    //       setEmail("");
+    //       window.scrollTo(0, 0);
+    //     },
+    //     (error) => {
+    //       console.log("FAILED...", error);
+    //       alert("Subscription failed. Please try again.");
+    //     }
+    //   );
+    toast.success("Subscription successful", {
+      position: "top-center",
+      className: "custom-toast-success",
+      bodyClassName: "customToast",
+      autoClose: 3000,
+    });
   };
   return (
     <footer className="bg-black text-white py-8">
