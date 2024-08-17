@@ -1,13 +1,20 @@
 import React from "react";
-import { FaInstagram, FaFacebookF, FaTwitter } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaFacebookF,
+  FaTwitter,
+  FaGithub,
+  FaLinkedin,
+  FaBlog,
+} from "react-icons/fa";
 import Nav from "../../Componetns/Navbar";
 
 const AboutUs = () => {
   return (
     <>
-      <Nav />
-      <div className="bg-black my-auto h-[100vh] flex align-middle items-center justify-center">
-        <section className="bg-black text-white py-10  px-4 sm:px-8 lg:px-16 overflow">
+      <div className="bg-black my-auto h-[100vh]  align-middle items-center justify-center">
+        <Nav />
+        <section className="bg-black text-white pt-[4.5rem]  px-4 sm:px-8 lg:px-16 ">
           <div className="container mx-auto text-center">
             <h2 className="text-4xl sm:text-5xl font-bold mb-8">About Us</h2>
             <p className="text-base sm:text-lg mb-6">
@@ -29,25 +36,25 @@ const AboutUs = () => {
             </p>
             <div className="flex justify-center space-x-6 sm:space-x-8 md:space-x-10 lg:space-x-12 mb-8">
               <a
-                href="https://www.instagram.com"
+                href="https://github.com/nee1612"
                 className="text-white hover:text-gray-400"
                 aria-label="Instagram"
               >
-                <FaInstagram className="text-2xl sm:text-3xl" />
+                <FaGithub className="text-2xl sm:text-3xl" />
               </a>
               <a
-                href="https://www.facebook.com"
+                href="https://www.linkedin.com/in/neeraj-kumar-754bb9213/"
                 className="text-white hover:text-gray-400"
                 aria-label="Facebook"
               >
-                <FaFacebookF className="text-2xl sm:text-3xl" />
+                <FaLinkedin className="text-2xl sm:text-3xl" />
               </a>
               <a
-                href="https://www.twitter.com"
+                href="https://blogsaga-iiitb.web.app/"
                 className="text-white hover:text-gray-400"
                 aria-label="Twitter"
               >
-                <FaTwitter className="text-2xl sm:text-3xl" />
+                <FaBlog className="text-2xl sm:text-3xl" />
               </a>
             </div>
             <div className="border-t border-gray-700 pt-8">

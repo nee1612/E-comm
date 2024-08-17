@@ -19,6 +19,7 @@ import Lottie from "lottie-react";
 import cartLoader from "../assets/Lottie/cartLoader.json";
 import Cookies from "universal-cookie";
 import { IoIosRemove, IoMdAdd } from "react-icons/io";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const cookies = new Cookies();
 
@@ -201,6 +202,22 @@ const ProductPage = () => {
 
   const navTOCart = () => navigate("/cart", { state: cart });
 
+  const renderStars = (rating) => {
+    return (
+      <div className="flex">
+        {Array.from({ length: 5 }, (_, index) => {
+          if (rating >= index + 1) {
+            return <FaStar key={index} className="text-yellow-500" />;
+          } else if (rating >= index + 0.5) {
+            return <FaStarHalfAlt key={index} className="text-yellow-500" />;
+          } else {
+            return <FaStar key={index} className="text-gray-300" />;
+          }
+        })}
+      </div>
+    );
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -281,7 +298,9 @@ const ProductPage = () => {
               Girls Pink Moana Printed Dress
             </p>
             <div className="flex items-center mt-2">
-              <span className="text-yellow-500 text-lg">★★★★★</span>
+              <span className="text-yellow-500 text-lg">
+                {renderStars(prodDetail.rating)}
+              </span>
               <span className="text-gray-600 ml-2">(121 Reviews)</span>
             </div>
             <div className="flex items-center mt-4">

@@ -20,20 +20,20 @@ module.exports = {
       },
       keyframes: {
         fadeInFromRight: {
-          "0%": { opacity: "0", transform: "translateX(60px)" },
+          "0%": { opacity: "0", transform: "translateX(150px)" },
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
         fadeInFromLeft: {
-          "0%": { opacity: "0", transform: "translateX(-60px)" },
+          "0%": { opacity: "0", transform: "translateX(-150px)" },
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
         slideInFromTop: {
-          "0%": { opacity: "0", transform: "translateY(-40px)" },
+          "0%": { opacity: "0", transform: "translateY(-80px)" },
 
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         slideInFromBottom: {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "0%": { opacity: "0", transform: "translateY(70px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },

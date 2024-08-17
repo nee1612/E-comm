@@ -1,7 +1,44 @@
 import React from "react";
+import { useState } from "react";
 import Logo from "./../assets/image.png"; // Update the path to your logo
+import emailjs from "emailjs-com";
+import { toast } from "react-toastify";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+
+    const templateParams = {
+      user_email: email,
+    };
+
+    emailjs
+      .send(
+        "service_9zo2tlv",
+        "template_7msteqi",
+        templateParams,
+        "U48J8PfQwkYnnO9yE"
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+          toast.success("Subscription successful", {
+            position: "top-center",
+            className: "custom-toast-success",
+            bodyClassName: "customToast",
+            autoClose: 3000,
+          });
+          setEmail("");
+          window.scrollTo(0, 0);
+        },
+        (error) => {
+          console.log("FAILED...", error);
+          alert("Subscription failed. Please try again.");
+        }
+      );
+  };
   return (
     <footer className="bg-black text-white py-8">
       <div className="container  sm:mx-auto px-6 sm:px-4">
@@ -80,22 +117,22 @@ const Footer = () => {
             <h3 className="font-semibold mb-1 sm:mb-4">Information</h3>
             <ul>
               <li className=" sm:mb-2">
-                <a href="/" className="text-gray-400 hover:text-white">
+                <a href="/profile" className="text-gray-400 hover:text-white">
                   My Account
                 </a>
               </li>
               <li className="sm:mb-2">
-                <a href="/" className="text-gray-400 hover:text-white">
+                <a href="/login" className="text-gray-400 hover:text-white">
                   Login
                 </a>
               </li>
               <li className="sm:mb-2">
-                <a href="/" className="text-gray-400 hover:text-white">
+                <a href="/cart" className="text-gray-400 hover:text-white">
                   My Cart
                 </a>
               </li>
               <li className="sm:mb-2">
-                <a href="/" className="text-gray-400 hover:text-white">
+                <a href="/wishlist" className="text-gray-400 hover:text-white">
                   My Wishlist
                 </a>
               </li>
@@ -107,7 +144,7 @@ const Footer = () => {
             <h3 className="font-semibold mb-1  sm:mb-4">Service</h3>
             <ul>
               <li className="sm:mb-2">
-                <a href="/" className="text-gray-400 hover:text-white">
+                <a href="/about" className="text-gray-400 hover:text-white">
                   About Us
                 </a>
               </li>
@@ -157,10 +194,13 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="p-3 bg-transparent  flex-grow text-white placeholder-gray-400 focus:outline-none"
               />
               <button
-                type="submit"
+                type="click"
+                onClick={(e) => handleSubscribe(e)}
                 className="p-3 bg-transparent text-gray-400 hover:bg-gray-700 hover:text-white"
               >
                 <svg
