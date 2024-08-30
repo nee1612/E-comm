@@ -18,11 +18,10 @@ const Review = ({
   selectedPaymentMethod,
   cartList,
 }) => {
-  const address = addresses.find((addr) => addr.id === selectedAddress);
   const { userDetails } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const orderRef = collection(confirmOrder, "confirmOrder");
-
+  const address = addresses.find((address) => address.id === selectedAddress);
   return (
     <>
       {loading ? (
@@ -62,6 +61,11 @@ const Review = ({
               <>
                 <p className="text-gray-600">{address.name}</p>
                 <p className="text-gray-500 text-sm">{address.address}</p>
+                <p className="text-gray-600">{address.flat}</p>
+                <p className="text-gray-600">{address.area}</p>
+                <p className="text-gray-600">
+                  {address.city},{address.state} {address.pincode}
+                </p>
               </>
             ) : (
               <p className="text-gray-500 text-sm">No address selected</p>
@@ -77,8 +81,8 @@ const Review = ({
                 ? "Debit/Credit Card"
                 : selectedPaymentMethod === "googlepay"
                 ? "Google Pay"
-                : selectedPaymentMethod === "paypal"
-                ? "Paypal"
+                : selectedPaymentMethod === "razorpay"
+                ? "Razorpay"
                 : selectedPaymentMethod === "cod"
                 ? "Cash on Delivery"
                 : "Not Selected"}

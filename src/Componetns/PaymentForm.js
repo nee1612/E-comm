@@ -1,30 +1,87 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+// src/components/PaymentForm.js
 
-const PaymentForm = ({ handleSubmitPayment }) => {
+import React, { useContext, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import logo from "../assets/favIcon.png";
+import UserContext from "../Context/UserContext";
+
+const PaymentForm = ({ handleSubmitPayment, grandTotal, setOrderId }) => {
+  const { userDetails } = useContext(UserContext);
   const [selectedPayment, setSelectedPayment] = useState("card");
   const [cardNumber, setCardNumber] = useState("");
   const [cardName, setCardName] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
-  //   const [error, setError] = useState("");
+  const handlePayment = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:3001/create-order", {
+        amount: grandTotal * 100,
+      });
+      console.log(data);
+      const options = {
+        key: "rzp_test_xxCTNCzXz9FyIk", // Your Test Key ID
+        amount: data.amount, // Amount in paise
+        currency: "INR",
+        name: "Krist",
+        description: "Order Payment",
+        image: { logo },
+        order_id: data.orderId,
+        handler: async function (response) {
+          const { data: verificationResponse } = await axios.post(
+            "http://localhost:3001/verify-payment",
+            {
+              paymentId: response.razorpay_payment_id,
+              orderId: response.razorpay_order_id,
+              signature: response.razorpay_signature,
+              amount: grandTotal * 100,
+              userId: userDetails.uid,
+              userCheckedOut: false,
+            }
+          );
+          setOrderId(response.razorpay_order_id);
+          toast.success("Payment Successful: " + verificationResponse.message);
+          handleSubmitPayment(selectedPayment);
+        },
+        prefill: {
+          name: "John Doe",
+          email: "john.doe@example.com",
+          contact: "9999999999",
+        },
+        notes: {
+          address: "Test Address",
+        },
+        theme: {
+          color: "#F37254",
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } catch (error) {
+      console.error("Error initiating payment:", error);
+    }
+  };
 
   const handleContinue = () => {
     if (selectedPayment === "card") {
       if (!cardNumber || !cardName || !expiryDate || !cvv) {
-        toast.error("Please fill all the fields", {
-          position: "top-center",
-          className: "custom-toast-error",
-          bodyClassName: "customToast",
-        });
+        toast.error("Please fill all the fields");
         return;
       }
+      // Handle card payment logic here if needed
+      toast.success("Card payment logic to be implemented");
+    } else if (selectedPayment === "razorpay") {
+      handlePayment();
+    } else {
+      // Handle other payment methods
+      toast.success(`Selected payment method: ${selectedPayment}`);
+      handleSubmitPayment(selectedPayment);
     }
-    handleSubmitPayment(selectedPayment);
   };
 
   return (
-    <div className="w-full  p-6">
+    <div className="w-full p-6">
       <div className="space-y-6">
         {/* Debit/Credit Card */}
         <div>
@@ -131,12 +188,12 @@ const PaymentForm = ({ handleSubmitPayment }) => {
             <input
               type="radio"
               name="payment"
-              value="paypal"
-              checked={selectedPayment === "paypal"}
-              onChange={() => setSelectedPayment("paypal")}
+              value="razorpay"
+              checked={selectedPayment === "razorpay"}
+              onChange={() => setSelectedPayment("razorpay")}
               className="form-radio text-black"
             />
-            <span className="font-semibold">Paypal</span>
+            <span className="font-semibold">Razorpay</span>
           </label>
         </div>
 

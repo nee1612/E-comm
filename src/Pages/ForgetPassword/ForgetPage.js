@@ -4,7 +4,10 @@ import Logo from "./../../assets/image.png";
 import "../../customToast.css";
 import { toast } from "react-toastify";
 import { auth } from "../../Config/firebase";
-import { sendPasswordResetEmail } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  fetchSignInMethodsForEmail,
+} from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { IoIosArrowBack } from "react-icons/io";
@@ -19,19 +22,16 @@ function ForgetPage() {
     e.preventDefault();
     try {
       await sendPasswordResetEmail(auth, email);
-      toast.success("Reset password link sent to your email", {
-        position: "top-center",
-        className: "custom-toast-success",
-        bodyClassName: "customToast",
-      });
+      const fetchSignInMethod = await fetchSignInMethodsForEmail(auth, email);
+      console.log(fetchSignInMethod);
+      if (fetchSignInMethod.length === 0) {
+        toast.error("Email not found");
+        return;
+      }
+      toast.success("Reset password link sent to your email");
       navigate("/login");
     } catch (err) {
-      console.error(err);
-      toast.error(err.message, {
-        position: "top-center",
-        className: "custom-toast-error",
-        bodyClassName: "customToast",
-      });
+      toast.error(err.message);
     }
   };
 

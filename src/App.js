@@ -14,6 +14,8 @@ import Wishlist from "./Pages/WishlistPage/Wishlist";
 import { ScrollProvider } from "./Context/ScrollContext";
 import ForgetPage from "./Pages/ForgetPassword/ForgetPage";
 import AboutUs from "./Pages/AboutUs/AboutUsPage";
+import OTPVerification from "./Pages/OTP/OTPVerification";
+import RazorpayButton from "./Pages/PaymentGateway.js/RazorpayButton";
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
             <ToastContainer />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/payment" element={<RazorpayButton />} />
 
               <Route path="/product" element={<ProductPage />} />
               <Route path="/cart" element={<Cart />} />
@@ -32,6 +35,7 @@ function App() {
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forget" element={<ForgetPage />} />
+              <Route path="/otp" element={<OTPVerification />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/signUp" element={<SignUp />} />
             </Routes>
