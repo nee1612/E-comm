@@ -1,0 +1,20 @@
+/* scroll.css */
+
+/* Custom scrollbar styles for WebKit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+  height: 8px; /* Height for horizontal scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #9ca3af; /* Thumb color */
+  border-radius: 8px; /* Rounded corners */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Track color */
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none; /* Hide the arrows */
+}

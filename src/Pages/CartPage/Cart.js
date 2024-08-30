@@ -111,15 +111,23 @@ const Cart = () => {
       ) : (
         <>
           {cartList.length === 0 ? (
-            <div className=" mt-5 p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-lg mx-6  sm:mx-10">
-              <div className="flex mt-14 justify-center font-raleway">
-                <Lottie animationData={emptyCart} className="w-[30%]" />
+            <div className=" mt-5 p-4 sm:p-6 lg:p-8 bg-white md:h-[calc(100vh-7rem)] rounded-lg shadow-lg mx-6  sm:mx-10">
+              <div className="flex mt-10 justify-center font-raleway">
+                <Lottie animationData={emptyCart} className="w-[25%]" />
               </div>
-              <p className="text-center mb-3 font-raleway">
+              <p className="text-center mb-3 mt-4 font-raleway">
                 Your cart is Empty !!
                 <br />
                 Please add items to cart.
               </p>
+              <div className="flex justify-center">
+                <button
+                  onClick={() => navigate("/")}
+                  className="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800"
+                >
+                  Continue Shopping
+                </button>
+              </div>
             </div>
           ) : (
             <>

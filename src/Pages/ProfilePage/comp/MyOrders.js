@@ -6,6 +6,7 @@ import moment from "moment/moment";
 import Loader from "../../../Componetns/Loader";
 import Lottie from "lottie-react";
 import EmptyCart from "../../../assets/Lottie/noOrder.json";
+import "./scroll.css";
 
 const MyOrders = () => {
   const [cartList, setCartList] = useState([]);
@@ -43,7 +44,7 @@ const MyOrders = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="w-full p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-lg">
+        <div className="w-full h-full md:h-[calc(100vh-7rem)] p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-md overflow-y-scroll custom-scrollbar">
           {cartList.length === 0 ? (
             <div>
               <div className="flex justify-center">
@@ -55,11 +56,11 @@ const MyOrders = () => {
               </p>
             </div>
           ) : (
-            <>
+            <div>
               <p className="text-2xl font-semibold mb-4">My Orders</p>
               {cartList.map((order) => (
                 <div key={order.id} className="mb-4">
-                  <div className="  mb-2 inline-block">
+                  <div className="mb-2 inline-block">
                     <div className="flex align-middle items-center gap-2 bg-green-100 text-sm p-1 rounded-md text-green-600">
                       <p>Ordered On :</p>
                       <p>
@@ -109,7 +110,7 @@ const MyOrders = () => {
                   ))}
                 </div>
               ))}
-            </>
+            </div>
           )}
         </div>
       )}

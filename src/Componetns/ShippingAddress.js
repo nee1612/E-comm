@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Nav from "./Navbar";
+import logo from "../assets/favIcon.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -33,55 +34,120 @@ const ShippingAddress = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const orderRef = collection(confirmOrder, "confirmOrder");
   const [orderId, setOrderId] = useState(null);
+  const [orderConfirmLoading, setOrderConfirmLoading] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
+  // payment function for razorpay
+  const handlePayment = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:3001/create-order", {
+        amount: grandTotal * 100,
+      });
+
+      return new Promise((resolve, reject) => {
+        const options = {
+          key: "rzp_test_xxCTNCzXz9FyIk", // Your Test Key ID
+          amount: data.amount, // Amount in paise
+          currency: "INR",
+          name: "Krist",
+          description: "Order Payment",
+          image: { logo },
+          order_id: data.orderId,
+          handler: async function (response) {
+            try {
+              const { data: verificationResponse } = await axios.post(
+                "http://localhost:3001/verify-payment",
+                {
+                  paymentId: response.razorpay_payment_id,
+                  orderId: response.razorpay_order_id,
+                  signature: response.razorpay_signature,
+                  amount: grandTotal * 100,
+                  userId: userDetails.uid,
+                  userCheckedOut: false,
+                }
+              );
+              setOrderId(response.razorpay_order_id);
+              toast.success(
+                "Payment Successful: " + verificationResponse.message
+              );
+              resolve(true); // Payment successful
+            } catch (verificationError) {
+              console.error("Payment verification failed:", verificationError);
+              toast.error("Payment verification failed.");
+              resolve(false); // Payment failed during verification
+            }
+          },
+          prefill: {
+            name: "John Doe",
+            email: "john.doe@example.com",
+            contact: "9999999999",
+          },
+          notes: {
+            address: "Test Address",
+          },
+          theme: {
+            color: "#F37254",
+          },
+          modal: {
+            ondismiss: () => {
+              toast.error("Payment process was canceled.");
+              resolve(false); // Payment canceled
+            },
+          },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      });
+    } catch (error) {
+      console.error("Error initiating payment:", error);
+      toast.error("Payment initiation failed.");
+      return false; // Payment initiation failed
+    }
+  };
 
   const handleConfirmOrder = async () => {
-    setLoading(true);
+    setOrderConfirmLoading(true);
     try {
-      // Add the order to Firestore
-      const order = await addDoc(orderRef, {
-        userId: userDetails.uid,
-        address: selectedAddress,
-        paymentMethod: selectedPaymentMethod,
-        createdAt: new Date(),
-        products: cartList,
-      });
+      let paymentSuccess = true;
 
-      // Generate template parameters for the email
-      const templateParams = GenerateTemplateParams({
-        userDetails,
-        orderId: order.id,
-        cartList,
-        selectedAddress,
-        selectedPaymentMethod,
-      });
-
-      // Send order confirmation email
-      <SendOrderConfirmationEmail templateParams={templateParams} />;
-
-      // Update userCheckedOut field in the backend
-      try {
-        const { data } = await axios.post("http://localhost:3001/checkout", {
-          orderId: orderId,
-          userCheckedOut: true,
-        });
-        console.log(data, orderId);
-      } catch (error) {
-        console.error("Error during checkout:", error);
-        toast.error("Checkout failed");
+      if (selectedPaymentMethod === "razorpay") {
+        paymentSuccess = await handlePayment();
+        console.log(paymentSuccess, "paymentSuccess");
       }
 
-      // Update state after the process is complete
-      setLoading(false);
-      // setIsModalVisible(true);
+      if (paymentSuccess) {
+        const order = await addDoc(orderRef, {
+          userId: userDetails.uid,
+          address: selectedAddress,
+          paymentMethod: selectedPaymentMethod,
+          createdAt: new Date(),
+          products: cartList,
+        });
+
+        const templateParams = GenerateTemplateParams({
+          userDetails,
+          orderId: order.id,
+          cartList,
+          selectedAddress,
+          selectedPaymentMethod,
+        });
+
+        await SendOrderConfirmationEmail(templateParams);
+
+        setOrderConfirmLoading(false);
+        setIsModalVisible(true);
+      } else {
+        setOrderConfirmLoading(false);
+        toast.error("Order could not be completed due to payment failure.");
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Order confirmation failed:", err);
       setLoading(false);
-      toast.error("Order confirmation failed");
+      toast.error("Order confirmation failed.");
     }
   };
 
@@ -108,6 +174,7 @@ const ShippingAddress = () => {
   useEffect(() => {
     fetchCartItems();
   }, [userDetails.uid]);
+
   const subtotal = cartList.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -191,7 +258,7 @@ const ShippingAddress = () => {
             {step === 2 && "Review"}
           </h1>
           <div className="ml-5 mb-6">
-            {step > 0 && step < 2 && (
+            {step > 0 && step < 3 && (
               <div className="flex gap-1 align-middle items-center text-xl font-[500] ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -310,12 +377,20 @@ const ShippingAddress = () => {
                 </span>
               </div>
               {step === 2 && (
-                <button
-                  onClick={handleConfirmOrder}
-                  className="w-full bg-black hover:bg-slate-800 text-white p-2 rounded-lg mb-3"
-                >
-                  Proceed to Checkout
-                </button>
+                <>
+                  {orderConfirmLoading ? (
+                    <button className="w-full bg-black hover:bg-slate-800 text-white p-2 rounded-lg mb-3">
+                      Processing Order ...
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleCheckout}
+                      className="w-full bg-black hover:bg-slate-800 text-white p-2 rounded-lg mb-3"
+                    >
+                      Proceed to Checkout
+                    </button>
+                  )}
+                </>
               )}
             </div>
             <ConfirmationModal

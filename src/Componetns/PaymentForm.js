@@ -69,12 +69,11 @@ const PaymentForm = ({ handleSubmitPayment, grandTotal, setOrderId }) => {
         toast.error("Please fill all the fields");
         return;
       }
-      // Handle card payment logic here if needed
       toast.success("Card payment logic to be implemented");
     } else if (selectedPayment === "razorpay") {
-      handlePayment();
+      toast.success(`Selected payment method: ${selectedPayment}`);
+      handleSubmitPayment(selectedPayment);
     } else {
-      // Handle other payment methods
       toast.success(`Selected payment method: ${selectedPayment}`);
       handleSubmitPayment(selectedPayment);
     }

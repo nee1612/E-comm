@@ -7,8 +7,9 @@ import { userCartItems, wishlistDb } from "../Config/firebase";
 import UserContext from "../Context/UserContext";
 
 const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
-  const { setCartList } = useContext(UserContext);
+  const { setCartList, setWishlistSec } = useContext(UserContext);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [wishlist, setWishlist] = useState([]);
   const dummyOriginalPrice = (item.price * 1.3).toFixed(2);
   const discountedPrice = item.price.toFixed(2);
   const [quantity, setQuantity] = useState(1);
@@ -20,19 +21,12 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   const addToCart = async (item) => {
     setLoading(true);
-
     // Check if a size is selected
     if (!selectedSize) {
-      toast.error("Please select a size", {
-        position: "top-center",
-        className: "custom-toast-error",
-        bodyClassName: "customToast",
-      });
+      toast.error("Please select a size");
       setLoading(false); // Ensure loading state is reset
       return;
     }
-
-    // Prepare cart item
     const cartItem = {
       title: item.title,
       quantity: quantity,
@@ -53,8 +47,9 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
 
       // Remove item from wishlist
       await deleteDoc(doc(wishlistRef, item.id));
-      fetchWishlist(); // Refresh wishlist
-
+      const updatedWishlist = wishlist.filter((item) => item.id !== item.id);
+      setWishlistSec(updatedWishlist);
+      fetchWishlist();
       // Update cart list in the state
       setCartList((prev) => [...prev, cartItem]);
     } catch (err) {
@@ -84,11 +79,11 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
           <FaTimes />
         </button>
         <div className="flex items-start mt-3">
-          <img
+          {/* <img
             src={item.image}
             alt={item.title}
             className="w-20 h-20 object-cover rounded-md mr-4"
-          />
+          /> */}
           <div>
             <h3 className="font-semibold text-lg">{item.title}</h3>
             <p className="bg-green-100 text-green-700 text-sm inline-block px-2 rounded-md mb-1 mt-1">

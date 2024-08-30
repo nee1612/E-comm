@@ -29,7 +29,6 @@ module.exports = {
         },
         slideInFromTop: {
           "0%": { opacity: "0", transform: "translateY(-80px)" },
-
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         slideInFromBottom: {
@@ -38,12 +37,19 @@ module.exports = {
         },
       },
       animation: {
-        fadeInFromRight: "fadeInFromRight 1.7s ease-out",
-        fadeInFromLeft: "fadeInFromLeft 1.7s ease-out",
-        slideInFromTop: "slideInFromTop 1.5s ease-out",
+        fadeInFromRight: "fadeInFromRight 1.2s ease-out",
+        fadeInFromLeft: "fadeInFromLeft 1.2s ease-out",
+        slideInFromTop: "slideInFromTop 1s ease-out",
         slideInFromBottom: "slideInFromBottom 1s ease-out",
+      },
+      // Extend custom scrollbar styles here
+      scrollbar: {
+        thumb: "bg-gray-400 rounded", // Customize scrollbar thumb color and shape
+        track: "bg-gray-200", // Customize scrollbar track color
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwind-scrollbar"), // Add the scrollbar plugin here
+  ],
 };

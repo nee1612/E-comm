@@ -74,7 +74,7 @@ function Wishlist() {
       ) : (
         <>
           {wishlist.length === 0 ? (
-            <div className=" mt-5 pb-5 p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-lg mx-6  sm:mx-10 font-raleway">
+            <div className=" mt-5 pb-5 p-4 sm:p-6 lg:p-8 md:h-[calc(100vh-7rem)] bg-white rounded-lg shadow-lg mx-6  sm:mx-10 font-raleway">
               <div className="flex  justify-center font-raleway">
                 <Lottie animationData={empty} className="w-[30%]" />
               </div>
