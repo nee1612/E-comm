@@ -5,12 +5,14 @@ import "../../customToast.css";
 import { toast } from "react-toastify";
 import Lottie from "lottie-react";
 import LoginLottie from "../../assets/Lottie/google.json";
+import { auth } from "../../Config/firebase";
 import {
-  auth,
-  googleProvider,
-  signInWithGoogleUser,
-} from "../../Config/firebase";
-import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+  signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+  GoogleAuthProvider,
+  linkWithCredential,
+  signInWithPopup,
+} from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
@@ -19,22 +21,56 @@ function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loadingGoogle, setLoadingGoogle] = useState(false);
 
   const HandleSingInWithGoogle = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const res = await signInWithPopup(auth, googleProvider);
-      cookies.set("auth-token", res.user.refreshToken);
-
-      toast.success("Login Success", {
-        position: "top-center",
-        className: "custom-toast-success",
-        bodyClassName: "customToast",
+      const googleProvider = new GoogleAuthProvider();
+      googleProvider.setCustomParameters({
+        prompt: "select_account", // Forces the account selection screen
       });
+
+      // Sign in with Google popup
+      const res = await signInWithPopup(auth, googleProvider);
+      const googleUser = res.user;
+      const googleCredential = GoogleAuthProvider.credentialFromResult(res);
+      const existingUserMethods = await fetchSignInMethodsForEmail(
+        auth,
+        "neerajjareen36251@gmail.com"
+      );
+
+      console.log(existingUserMethods, existingUserMethods.length);
+      if (
+        existingUserMethods.length &&
+        existingUserMethods.includes("password")
+      ) {
+        console.log(existingUserMethods, existingUserMethods.length);
+        try {
+          // Attempt to link the Google account to the existing email/password account
+          await linkWithCredential(auth.currentUser, googleCredential);
+          console.log(
+            "Google account successfully linked to existing email/password account."
+          );
+        } catch (linkError) {
+          console.error(
+            "Error linking Google account to email/password account:",
+            linkError
+          );
+        }
+      } else {
+        console.log("User does not have an email/password account.");
+      }
+
+      setLoading(false);
+      cookies.set("auth-token", res.user.refreshToken);
+      toast.success("Login Success");
       navigate("/");
-      console.log(res);
     } catch (error) {
-      console.log(error);
+      console.error("Error during Google sign-in:", error.message);
+      toast.error("Error during login. Please try again.");
     }
   };
 
@@ -47,8 +83,17 @@ function LoginPage() {
 
   const signIn = async (e) => {
     e.preventDefault();
+    setLoadingGoogle(true);
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
+      const user = result.user;
+      if (!user.emailVerified) {
+        await auth.signOut();
+        toast.error(
+          "Your email is not verified. Please verify your email and try again."
+        );
+        return;
+      }
       console.log("result", result.user.refreshToken);
       cookies.set("auth-token", result.user.refreshToken);
       toast.success("Login Success", {
@@ -56,6 +101,7 @@ function LoginPage() {
         className: "custom-toast-success",
         bodyClassName: "customToast",
       });
+      setLoadingGoogle(false);
       navigate("/");
     } catch (err) {
       console.error(err);
@@ -128,7 +174,7 @@ function LoginPage() {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2"
+                className="w-full font-[900] px-3 py-[3px] text-[20px] border rounded-md focus:outline-none focus:ring-2"
               />
             </div>
             <div className="flex items-center justify-between mb-4">
@@ -151,7 +197,7 @@ function LoginPage() {
               type="button"
               className="w-full py-3 px-4 bg-black text-white font-semibold rounded-md hover:bg-gray-800 mb-4"
             >
-              Login
+              {loadingGoogle ? "Logging In..." : "Login"}
             </button>
             <div className="flex items-center my-3 mb-4">
               <hr className="flex-grow border-gray-400" />

@@ -31,7 +31,6 @@ const UserContextProvider = ({ children }) => {
           ...doc.data(),
         }));
         setCartList(cartItems);
-        console.log("cartItems", cartItems.length);
       } else {
         setCartList([]);
       }
@@ -54,7 +53,6 @@ const UserContextProvider = ({ children }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log("wishlistItems", wishlistItemsSec);
         setWishlistSec(wishlistItemsSec);
       } else {
         setWishlistSec([]);

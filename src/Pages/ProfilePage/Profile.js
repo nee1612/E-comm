@@ -12,16 +12,14 @@ const cookies = new Cookies();
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("personalInformation");
   const { userDetails, loading } = useContext(UserContext);
+  console.log(userDetails);
+  console.log(userDetails);
   const navigate = useNavigate();
   useEffect(() => {
     const token = cookies.get("auth-token");
     if (token === undefined) {
       navigate("/");
-      toast.error("Please login first", {
-        position: "top-center",
-        className: "custom-toast-error",
-        bodyClassName: "customToast",
-      });
+      toast.error("Please login first");
     }
   }, [navigate]);
   return (
@@ -44,7 +42,7 @@ const Profile = () => {
                 ) : (
                   <img
                     src={userDetails.photoURL}
-                    alt=""
+                    alt="hh"
                     className="rounded-full h-20 w-20 mx-auto"
                   />
                 )}
