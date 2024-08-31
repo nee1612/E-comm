@@ -51,10 +51,13 @@ const ShippingAddress = () => {
   // payment function for razorpay
   const handlePayment = async (tempOrderId) => {
     try {
-      const { data } = await axios.post("http://localhost:3001/create-order", {
-        amount: grandTotal * 100,
-        tempOrderId: tempOrderId,
-      });
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/create-order`,
+        {
+          amount: grandTotal * 100,
+          tempOrderId: tempOrderId,
+        }
+      );
 
       return new Promise((resolve, reject) => {
         const options = {
@@ -86,7 +89,7 @@ const ShippingAddress = () => {
 
                 // Now send the actual order ID to your server for verification
                 const { data: verificationResponse } = await axios.post(
-                  "http://localhost:3001/verify-payment",
+                  `${process.env.REACT_APP_BACKEND_URL}/verify-payment`,
                   {
                     paymentId: response.razorpay_payment_id,
                     orderId: response.razorpay_order_id,
