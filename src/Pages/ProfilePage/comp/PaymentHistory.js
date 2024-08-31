@@ -12,9 +12,12 @@ function PaymentHistory() {
     const fetchPayments = async () => {
       setLoading(true);
       try {
-        const response = await axios.post("http://localhost:3001/payments", {
-          userId: userDetails.uid, // Sending userId to the server
-        });
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/payments`,
+          {
+            userId: userDetails.uid,
+          }
+        );
 
         setPayments(response.data);
         console.log(response.data.length);
