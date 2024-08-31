@@ -19,6 +19,7 @@ export const userCred = getFirestore(SignUp);
 export const userCartItems = getFirestore();
 export const confirmOrder = getFirestore();
 export const wishlistDb = getFirestore();
+export const tempOrder = getFirestore();
 export const address = getFirestore();
 export const OTPCred = getFirestore();
 export const googleProvider = new GoogleAuthProvider();

@@ -15,12 +15,19 @@ import ConfirmationModal from "./ConfirmationModal";
 import {
   collection,
   addDoc,
+  getDoc,
+  updateDoc,
   deleteDoc,
   doc,
   getDocs,
   query,
 } from "firebase/firestore";
-import { address, confirmOrder, userCartItems } from "../Config/firebase";
+import {
+  address,
+  confirmOrder,
+  userCartItems,
+  tempOrder,
+} from "../Config/firebase";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import axios from "axios";
@@ -35,22 +42,24 @@ const ShippingAddress = () => {
   const orderRef = collection(confirmOrder, "confirmOrder");
   const [orderId, setOrderId] = useState(null);
   const [orderConfirmLoading, setOrderConfirmLoading] = useState(false);
+  const tempOrderRef = collection(tempOrder, "tempOrder");
 
   const [loading, setLoading] = useState(false);
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
   // payment function for razorpay
-  const handlePayment = async () => {
+  const handlePayment = async (tempOrderId) => {
     try {
       const { data } = await axios.post("http://localhost:3001/create-order", {
         amount: grandTotal * 100,
+        tempOrderId: tempOrderId,
       });
 
       return new Promise((resolve, reject) => {
         const options = {
-          key: "rzp_test_xxCTNCzXz9FyIk", // Your Test Key ID
-          amount: data.amount, // Amount in paise
+          key: "rzp_test_xxCTNCzXz9FyIk",
+          amount: data.amount,
           currency: "INR",
           name: "Krist",
           description: "Order Payment",
@@ -58,26 +67,51 @@ const ShippingAddress = () => {
           order_id: data.orderId,
           handler: async function (response) {
             try {
-              const { data: verificationResponse } = await axios.post(
-                "http://localhost:3001/verify-payment",
-                {
-                  paymentId: response.razorpay_payment_id,
-                  orderId: response.razorpay_order_id,
-                  signature: response.razorpay_signature,
-                  amount: grandTotal * 100,
-                  userId: userDetails.uid,
-                  userCheckedOut: false,
-                }
-              );
-              setOrderId(response.razorpay_order_id);
-              toast.success(
-                "Payment Successful: " + verificationResponse.message
-              );
-              resolve(true); // Payment successful
+              // Update the payment status in Firestore
+              await updateDoc(doc(tempOrderRef, tempOrderId), {
+                paymentStatus: true,
+                paymentId: response.razorpay_payment_id,
+              });
+
+              // Retrieve the temp order data from Firestore
+              const tempOrderDoc = await getDoc(doc(tempOrderRef, tempOrderId));
+              if (tempOrderDoc.exists()) {
+                const orderData = tempOrderDoc.data();
+
+                // Add the order to the confirmOrder collection
+                const orderDocRef = await addDoc(orderRef, orderData);
+
+                // Delete the tempOrder document
+                await deleteDoc(doc(tempOrderRef, tempOrderId));
+
+                // Now send the actual order ID to your server for verification
+                const { data: verificationResponse } = await axios.post(
+                  "http://localhost:3001/verify-payment",
+                  {
+                    paymentId: response.razorpay_payment_id,
+                    orderId: response.razorpay_order_id,
+                    signature: response.razorpay_signature,
+                    amount: grandTotal * 100,
+                    tempOrderId: tempOrderId,
+                    userId: userDetails.uid,
+                    confirmedOrderId: orderDocRef.id, // Send the actual order ID
+                  }
+                );
+
+                setOrderId(response.razorpay_order_id);
+                toast.success(
+                  "Payment Successful: " + verificationResponse.message
+                );
+                resolve(true);
+              } else {
+                console.error("Temp order document does not exist.");
+                toast.error("Failed to confirm order.");
+                resolve(false);
+              }
             } catch (verificationError) {
               console.error("Payment verification failed:", verificationError);
               toast.error("Payment verification failed.");
-              resolve(false); // Payment failed during verification
+              resolve(false);
             }
           },
           prefill: {
@@ -86,7 +120,7 @@ const ShippingAddress = () => {
             contact: "9999999999",
           },
           notes: {
-            address: "Test Address",
+            address: "Krist, Bangalore",
           },
           theme: {
             color: "#F37254",
@@ -94,7 +128,7 @@ const ShippingAddress = () => {
           modal: {
             ondismiss: () => {
               toast.error("Payment process was canceled.");
-              resolve(false); // Payment canceled
+              resolve(false);
             },
           },
         };
@@ -105,7 +139,7 @@ const ShippingAddress = () => {
     } catch (error) {
       console.error("Error initiating payment:", error);
       toast.error("Payment initiation failed.");
-      return false; // Payment initiation failed
+      return false;
     }
   };
 
@@ -114,23 +148,27 @@ const ShippingAddress = () => {
     try {
       let paymentSuccess = true;
 
+      // First, add the order to tempOrder with paymentStatus set to false
+
+      const tempOrder = await addDoc(tempOrderRef, {
+        userId: userDetails.uid,
+        address: selectedAddress,
+        paymentMethod: selectedPaymentMethod,
+        createdAt: new Date(),
+        products: cartList,
+        paymentId: orderId,
+        totalPrice: grandTotal,
+        paymentStatus: false,
+      });
+
       if (selectedPaymentMethod === "razorpay") {
-        paymentSuccess = await handlePayment();
-        console.log(paymentSuccess, "paymentSuccess");
+        paymentSuccess = await handlePayment(tempOrder.id);
       }
 
       if (paymentSuccess) {
-        const order = await addDoc(orderRef, {
-          userId: userDetails.uid,
-          address: selectedAddress,
-          paymentMethod: selectedPaymentMethod,
-          createdAt: new Date(),
-          products: cartList,
-        });
-
         const templateParams = GenerateTemplateParams({
           userDetails,
-          orderId: order.id,
+          orderId: tempOrder.id,
           cartList,
           selectedAddress,
           selectedPaymentMethod,
@@ -140,14 +178,17 @@ const ShippingAddress = () => {
 
         setOrderConfirmLoading(false);
         setIsModalVisible(true);
+        return true;
       } else {
         setOrderConfirmLoading(false);
         toast.error("Order could not be completed due to payment failure.");
+        return false;
       }
     } catch (err) {
       console.error("Order confirmation failed:", err);
-      setLoading(false);
+      setOrderConfirmLoading(false);
       toast.error("Order confirmation failed.");
+      return false;
     }
   };
 
@@ -230,9 +271,12 @@ const ShippingAddress = () => {
     setStep(2);
   };
 
-  const handleCheckout = () => {
-    handleConfirmOrder();
-    handleRemoveItemsFromCart();
+  const handleCheckout = async () => {
+    const orderPlaced = await handleConfirmOrder();
+    console.log(orderPlaced);
+    if (orderPlaced) {
+      handleRemoveItemsFromCart();
+    }
   };
 
   const handleBack = () => {

@@ -89,7 +89,7 @@ const MyOrders = () => {
                       </div>
                       <div className=" text-left sm:text-right flex flex-col items-start sm:items-end">
                         <h3 className="text-base sm:text-lg font-bold">
-                          ${item.price}
+                          ${item.price * item.quantity}
                         </h3>
                         <p
                           className={`mt-1 text-xs sm:text-sm px-2 py-1 rounded-lg ${

@@ -20,7 +20,7 @@ function PaymentHistory() {
         );
 
         setPayments(response.data);
-        console.log(response.data.length);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching payments:", error);
       } finally {
