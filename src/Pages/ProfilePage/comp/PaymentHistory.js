@@ -7,7 +7,7 @@ function PaymentHistory() {
   const { userDetails } = useContext(UserContext);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  // payments
   useEffect(() => {
     const fetchPayments = async () => {
       setLoading(true);
