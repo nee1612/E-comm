@@ -69,6 +69,7 @@ const ProductPage = () => {
       size: selectedSize,
       price: prodDetail.price,
       image: prodDetail.image,
+      label: prodDetail.label,
       userId: userDetails.uid,
     };
 
@@ -78,18 +79,10 @@ const ProductPage = () => {
       await addDoc(cartRef, cartItem);
       setCartList((prev) => [...prev, cartItem]);
       setAddedToCart(true);
-      toast.success("Item Added to cart", {
-        position: "top-center",
-        className: "custom-toast-success",
-        bodyClassName: "customToast",
-      });
+      toast.success("Item Added to cart");
     } catch (err) {
       console.error(err);
-      toast.error("Error adding item to cart", {
-        position: "top-center",
-        className: "custom-toast-error",
-        bodyClassName: "customToast",
-      });
+      toast.error("Error adding item to cart");
     }
     setLoading(false);
     window.scrollTo({ top: 0, behavior: "smooth" });

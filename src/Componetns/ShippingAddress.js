@@ -84,10 +84,10 @@ const ShippingAddress = () => {
                 // Add the order to the confirmOrder collection
                 const orderDocRef = await addDoc(orderRef, orderData);
 
-                // Delete the tempOrder document
+                // Now delete the tempOrder document after successful update
                 await deleteDoc(doc(tempOrderRef, tempOrderId));
 
-                // Now send the actual order ID to your server for verification
+                // Send the actual order ID to your server for verification
                 const { data: verificationResponse } = await axios.post(
                   `${process.env.REACT_APP_BACKEND_URL}/verify-payment`,
                   {
@@ -151,27 +151,57 @@ const ShippingAddress = () => {
     try {
       let paymentSuccess = true;
 
-      // First, add the order to tempOrder with paymentStatus set to false
-
-      const tempOrder = await addDoc(tempOrderRef, {
-        userId: userDetails.uid,
-        address: selectedAddress,
-        paymentMethod: selectedPaymentMethod,
-        createdAt: new Date(),
-        products: cartList,
-        paymentId: orderId,
-        totalPrice: grandTotal,
-        paymentStatus: false,
-      });
-
       if (selectedPaymentMethod === "razorpay") {
-        paymentSuccess = await handlePayment(tempOrder.id);
-      }
+        // First, add the order to tempOrder with paymentStatus set to false
+        const tempOrder = await addDoc(tempOrderRef, {
+          userId: userDetails.uid,
+          address: selectedAddress,
+          paymentMethod: selectedPaymentMethod,
+          createdAt: new Date(),
+          products: cartList,
+          totalPrice: grandTotal,
+          paymentStatus: false,
+        });
 
-      if (paymentSuccess) {
+        // If Razorpay is selected, process the payment
+        paymentSuccess = await handlePayment(tempOrder.id);
+
+        if (paymentSuccess) {
+          // Send order confirmation email
+          const templateParams = GenerateTemplateParams({
+            userDetails,
+            orderId: tempOrder.id,
+            cartList,
+            selectedAddress,
+            selectedPaymentMethod,
+          });
+
+          await SendOrderConfirmationEmail(templateParams);
+
+          setOrderConfirmLoading(false);
+          setIsModalVisible(true);
+          return true; // Order placed successfully
+        } else {
+          setOrderConfirmLoading(false);
+          toast.error("Order could not be completed due to payment failure.");
+          return false; // Payment failed
+        }
+      } else {
+        // For non-Razorpay payment methods, directly add the order to confirmOrder
+        const confirmedOrder = await addDoc(orderRef, {
+          userId: userDetails.uid,
+          address: selectedAddress,
+          paymentMethod: selectedPaymentMethod,
+          createdAt: new Date(),
+          products: cartList,
+          totalPrice: grandTotal,
+          paymentStatus: true, // Assuming payment is successful for non-Razorpay methods
+        });
+
+        // Send order confirmation email
         const templateParams = GenerateTemplateParams({
           userDetails,
-          orderId: tempOrder.id,
+          orderId: confirmedOrder.id,
           cartList,
           selectedAddress,
           selectedPaymentMethod,
@@ -181,17 +211,13 @@ const ShippingAddress = () => {
 
         setOrderConfirmLoading(false);
         setIsModalVisible(true);
-        return true;
-      } else {
-        setOrderConfirmLoading(false);
-        toast.error("Order could not be completed due to payment failure.");
-        return false;
+        return true; // Order placed successfully
       }
     } catch (err) {
       console.error("Order confirmation failed:", err);
       setOrderConfirmLoading(false);
       toast.error("Order confirmation failed.");
-      return false;
+      return false; // Order confirmation failed
     }
   };
 

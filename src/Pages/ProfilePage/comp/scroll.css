@@ -13,6 +13,8 @@
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #f0f0f0; /* Track color */
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-button {

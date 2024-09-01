@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { userCartItems, confirmOrder } from "../../../Config/firebase";
+import { confirmOrder } from "../../../Config/firebase";
 import UserContext from "../../../Context/UserContext";
-import moment from "moment/moment";
+import moment from "moment";
 import Loader from "../../../Componetns/Loader";
 import Lottie from "lottie-react";
 import EmptyCart from "../../../assets/Lottie/noOrder.json";
+import OrderDetailsPopup from "./OrderDetailsPopup";
 import "./scroll.css";
 
 const MyOrders = () => {
   const [cartList, setCartList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { userDetails } = useContext(UserContext);
   const orderRef = collection(confirmOrder, "confirmOrder");
 
@@ -33,6 +36,16 @@ const MyOrders = () => {
       console.error(err);
       setLoading(false);
     }
+  };
+
+  const handleViewOrder = (order) => {
+    setSelectedOrder(order);
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setSelectedOrder(null);
   };
 
   useEffect(() => {
@@ -59,19 +72,26 @@ const MyOrders = () => {
             <div>
               <p className="text-2xl font-semibold mb-4">My Orders</p>
               {cartList.map((order) => (
-                <div key={order.id} className="mb-4">
-                  <div className="mb-2 inline-block">
-                    <div className="flex align-middle items-center gap-2 bg-green-100 text-sm p-1 rounded-md text-green-600">
+                <div
+                  key={order.id}
+                  onClick={() => handleViewOrder(order)}
+                  className="mb-4 px-5 py-3 rounded-md bg-white cursor-pointer transition duration-300 ease-in-out border-[1.2px] border-opacity-20 border-black hover:shadow-md hover:border-opacity-30 hover:border-cyan-600"
+                >
+                  <div className="mb-2 inline-block sm:flex justify-between ">
+                    <div className="flex align-middle items-center gap-2 bg-green-100 text-sm px-3 py-1 rounded-md text-green-600">
                       <p>Ordered On :</p>
                       <p>
                         {moment(order.createdAt.toDate()).format("MMM Do YY")}
                       </p>
                     </div>
+                    <div className="hidden sm:inline-block border-[1px] border-black px-3 py-1 text-sm rounded-md border-opacity-20 text-black cursor-pointer hover:bg-gray-50 hover:text-gray-600 transition duration-300 ease-in-out">
+                      <p>View Order</p>
+                    </div>
                   </div>
                   {order.products.map((item) => (
                     <div
                       key={item.id}
-                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-2 pt-2 mb-3"
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-1 pt-2 mb-1"
                     >
                       <div className="flex items-start sm:items-center mb-2 sm:mb-0">
                         <img
@@ -87,12 +107,12 @@ const MyOrders = () => {
                           <p className="text-gray-600">Qty: {item.quantity}</p>
                         </div>
                       </div>
-                      <div className=" text-left sm:text-right flex flex-col items-start sm:items-end">
+                      <div className="text-left sm:text-right flex flex-col items-start sm:items-end">
                         <h3 className="text-base sm:text-lg font-bold">
                           ${item.price * item.quantity}
                         </h3>
                         <p
-                          className={`mt-1 text-xs sm:text-sm px-2 py-1 rounded-lg ${
+                          className={`mt-1 text-xs sm:text-sm px-5 py-1 rounded-md ${
                             order.status === "Delivered"
                               ? "bg-green-100 text-green-600"
                               : "bg-yellow-100 text-yellow-600"
@@ -102,18 +122,29 @@ const MyOrders = () => {
                             ? "Delivered"
                             : "In Process"}
                         </p>
-                        <button className="bg-red-100 text-red-600 px-2 text-xs py-1 mt-2 rounded-lg hover:bg-red-200">
-                          Cancel Order
+                        <button className="bg-cyan-100 text-cyan-600 px-3 text-xs sm:text-sm py-1 mt-2 rounded-md">
+                          {item.label}
                         </button>
                       </div>
                     </div>
                   ))}
+                  <button
+                    className="w-full sm:hidden flex justify-center border-[1px] border-black px-3 py-1 text-sm rounded-md border-opacity-20 text-black cursor-pointer hover:bg-gray-50 hover:text-gray-600 transition duration-300 ease-in-out"
+                    onClick={() => handleViewOrder(order)}
+                  >
+                    View Order
+                  </button>
                 </div>
               ))}
             </div>
           )}
         </div>
       )}
+      <OrderDetailsPopup
+        order={selectedOrder}
+        isPopupOpen={isPopupOpen}
+        onClose={handleClosePopup}
+      />
     </>
   );
 };
