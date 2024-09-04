@@ -31,6 +31,7 @@ const MyOrders = () => {
         ...doc.data(),
       }));
       setCartList(cartItems);
+      console.log(cartItems);
       setLoading(false);
     } catch (err) {
       console.error(err);

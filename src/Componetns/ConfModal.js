@@ -31,6 +31,7 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
       title: item.title,
       quantity: quantity,
       size: selectedSize,
+      label: item.label,
       price: item.price,
       image: item.image,
       userId: item.userId,
@@ -39,11 +40,7 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
     try {
       // Add item to cart
       await addDoc(cartRef, cartItem);
-      toast.success("Item Added to cart", {
-        position: "top-center",
-        className: "custom-toast-success",
-        bodyClassName: "customToast",
-      });
+      toast.success("Item Added to cart");
 
       // Remove item from wishlist
       await deleteDoc(doc(wishlistRef, item.id));

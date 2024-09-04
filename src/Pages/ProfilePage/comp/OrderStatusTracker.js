@@ -26,7 +26,7 @@ const OrderStatusTracker = ({ status }) => {
       {statusStages.map((stage, index) => (
         <React.Fragment key={index}>
           <div className="relative z-10 text-center flex flex-col sm:flex-row items-center">
-            <div className="flex sm:flex-col gap-3 ">
+            <div className="flex sm:flex-col gap-1 ">
               <FontAwesomeIcon
                 icon={stage.icon}
                 className="text-3xl py-3 sm:py-0 sm:mb-0 sm:mr-2"

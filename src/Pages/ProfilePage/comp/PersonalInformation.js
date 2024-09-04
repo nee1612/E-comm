@@ -3,7 +3,6 @@ import { useContext } from "react";
 import UserContext from "../../../Context/UserContext";
 const PersonalInformation = () => {
   const { userDetails } = useContext(UserContext);
-  console.log(userDetails);
   return (
     <div className="p-6 bg-white rounded-lg h-full md:h-[calc(100vh-7rem)] shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Personal Information</h2>
