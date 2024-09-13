@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import UserContext from "../Context/UserContext";
 import Cookies from "universal-cookie";
 import { useScroll } from "../Context/ScrollContext";
+import ConfModal from "./ConfModal"; // Import ConfModal
 
 const cookies = new Cookies();
 
@@ -107,12 +108,9 @@ const ProductGrid = () => {
           rating: product.rating,
           image: product.image,
           price: product.price,
+          isFromWishlist: true,
         });
-        toast.success("Added to wishlist", {
-          position: "top-center",
-          className: "custom-toast-success",
-          bodyClassName: "customToast",
-        });
+        toast.success("Added to wishlist");
       }
 
       fetchWishlistItems();
@@ -124,6 +122,23 @@ const ProductGrid = () => {
         bodyClassName: "customToast",
       });
     }
+  };
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null); // State to keep track of the selected product
+
+  const addItemToCart = (e, product, isFromWishlist = false) => {
+    e.stopPropagation();
+    setSelectedProduct({
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      label: product.label,
+      userId: userDetails.uid,
+      rating: product.rating,
+      isFromWishlist,
+    });
+    setShowModal(true); // Show the modal
   };
 
   useEffect(() => {
@@ -224,15 +239,17 @@ const ProductGrid = () => {
                     </span>
                   </div>
                 </div>
-                <button className="w-full mt-4 bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800">
-                  View Product
+                <button
+                  onClick={(e) => addItemToCart(e, product)}
+                  className="w-full mt-4 bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800"
+                >
+                  Add to Cart
                 </button>
               </div>
             );
           })}
         </div>
 
-        {/* Pagination Controls */}
         <div className="flex flex-wrap justify-center mt-8">
           <button
             onClick={() => paginate(currentPage - 1)}
@@ -274,6 +291,16 @@ const ProductGrid = () => {
           </button>
         </div>
       </div>
+
+      {/* Modal component */}
+      {showModal && (
+        <ConfModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          item={selectedProduct}
+          fetchWishlist={fetchWishlistItems}
+        />
+      )}
     </>
   );
 };

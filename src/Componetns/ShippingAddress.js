@@ -61,12 +61,13 @@ const ShippingAddress = () => {
 
       return new Promise((resolve, reject) => {
         const options = {
-          key: "rzp_test_xxCTNCzXz9FyIk",
+          key: `${process.env.REACT_APP_RAZORPAY_KEY_ID}`,
           amount: data.amount,
           currency: "INR",
           name: "Krist",
           description: "Order Payment",
-          image: { logo },
+          image:
+            "https://res.cloudinary.com/codemingle/image/upload/c_thumb,w_200,g_face/v1726251835/Initial_bhqkjx.png",
           order_id: data.orderId,
           handler: async function (response) {
             try {
@@ -117,16 +118,17 @@ const ShippingAddress = () => {
               resolve(false);
             }
           },
+          // use from address
           prefill: {
-            name: "John Doe",
-            email: "john.doe@example.com",
-            contact: "9999999999",
+            name: userDetails.displayName,
+            email: userDetails.email,
+            contact: address.phoneNumber,
           },
           notes: {
             address: "Krist, Bangalore",
           },
           theme: {
-            color: "#F37254",
+            color: "#000000",
           },
           modal: {
             ondismiss: () => {

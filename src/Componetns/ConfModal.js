@@ -38,16 +38,17 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
     };
 
     try {
-      // Add item to cart
       await addDoc(cartRef, cartItem);
       toast.success("Item Added to cart");
 
-      // Remove item from wishlist
-      await deleteDoc(doc(wishlistRef, item.id));
-      const updatedWishlist = wishlist.filter((item) => item.id !== item.id);
-      setWishlistSec(updatedWishlist);
-      fetchWishlist();
-      // Update cart list in the state
+      if (item.isFromWishlist) {
+        await deleteDoc(doc(wishlistRef, item.id));
+        const updatedWishlist = wishlist.filter(
+          (wishlistItem) => wishlistItem.id !== item.id
+        );
+        setWishlistSec(updatedWishlist);
+        fetchWishlist();
+      }
       setCartList((prev) => [...prev, cartItem]);
     } catch (err) {
       console.error(err);

@@ -52,6 +52,7 @@ function SignUp() {
 
     try {
       const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+      console.log(signInMethods);
       if (signInMethods.length > 0) {
         if (signInMethods.includes("google.com")) {
           toast.error("Email is already associated with a Google account.");

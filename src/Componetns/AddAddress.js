@@ -4,9 +4,11 @@ import axios from "axios";
 import { address } from "../Config/firebase";
 import UserContext from "../Context/UserContext";
 import { toast } from "react-toastify";
+import { Country } from "../utils/Country";
 
 function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
   const { userDetails } = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     userId: userDetails.uid,
     name: "",
@@ -15,6 +17,7 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
     pincode: "",
     city: "",
     state: "",
+    phoneNumber: "", // Add phone number here
   });
 
   const [isAdding, setIsAdding] = useState(false);
@@ -35,7 +38,12 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
       [e.target.id]: e.target.value,
     });
   };
-
+  const handlePhoneChange = (e) => {
+    setFormData({
+      ...formData,
+      phone: e.target.value,
+    });
+  };
   const fetchCityState = async (pincode) => {
     try {
       const response = await axios.get(
@@ -84,6 +92,8 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
         pincode: "",
         city: "",
         state: "",
+        phone: "",
+        countryCode: "+91", // Reset to default
       });
       fetchAddresses();
     } catch (error) {
@@ -113,10 +123,9 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter Name"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-gray-600 outline-none sm:text-sm"
           />
         </div>
-
         <div className="mb-4">
           <label
             className="block text-sm font-medium text-gray-700"
@@ -130,10 +139,9 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
             value={formData.flat}
             onChange={handleChange}
             placeholder="Flat, House no., Building, Company, Apartment"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-gray-600 outline-none sm:text-sm"
           />
         </div>
-
         <div className="mb-4">
           <label
             className="block text-sm font-medium text-gray-700"
@@ -147,6 +155,22 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
             value={formData.area}
             onChange={handleChange}
             placeholder="Area, Colony, Street, Sector, Village"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-gray-600 outline-none sm:text-sm"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="phoneNumber"
+          >
+            Phone Number
+          </label>
+          <input
+            id="phoneNumber"
+            type="tel"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            placeholder="Enter Phone Number"
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
@@ -164,10 +188,9 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
             value={formData.pincode}
             onChange={handleChange}
             placeholder="Enter Pin Code"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1  block w-full p-2 border border-gray-300 rounded-md shadow-sm  focus:border-gray-600 outline-none  sm:text-sm"
           />
         </div>
-
         <div className="mb-4">
           <label
             className="block text-sm font-medium text-gray-700"
@@ -181,10 +204,9 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
             value={formData.city}
             onChange={handleChange}
             placeholder="City"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-gray-600 outline-none sm:text-sm"
           />
         </div>
-
         <div className="mb-4">
           <label
             className="block text-sm font-medium text-gray-700"
@@ -198,7 +220,7 @@ function AddAddress({ fetchAddresses, editingAddress, setEditingAddress }) {
             value={formData.state}
             onChange={handleChange}
             placeholder="State"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-gray-600 outline-none sm:text-sm"
           />
         </div>
         <div>
