@@ -22,6 +22,7 @@ export const wishlistDb = getFirestore();
 export const tempOrder = getFirestore();
 export const address = getFirestore();
 export const OTPCred = getFirestore();
+export const productData = getFirestore();
 export const googleProvider = new GoogleAuthProvider();
 export const getCurrentUser = () => {
   const currentUser = auth.currentUser;

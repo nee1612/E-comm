@@ -66,7 +66,7 @@ const DealsOfTheMonth = ({ scrollToProductGrid }) => {
       </div>
       <div className="md:w-[40%]">
         <img
-          src={yourImage}
+          src="https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1726348554/instaBottom/daniel-monteiro-VMeHP3mNJL4-unsplash_qlcvz8.jpg"
           alt="Deals of the Month"
           className="w-auto h-[35rem] rounded-lg object-cover"
         />

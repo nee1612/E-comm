@@ -71,13 +71,10 @@ const ShippingAddress = () => {
           order_id: data.orderId,
           handler: async function (response) {
             try {
-              // Update the payment status in Firestore
               await updateDoc(doc(tempOrderRef, tempOrderId), {
                 paymentStatus: true,
                 paymentId: response.razorpay_payment_id,
               });
-
-              // Retrieve the temp order data from Firestore
               const tempOrderDoc = await getDoc(doc(tempOrderRef, tempOrderId));
               if (tempOrderDoc.exists()) {
                 const orderData = tempOrderDoc.data();

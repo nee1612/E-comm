@@ -21,36 +21,33 @@ function Home() {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoadingSec(false);
-    }, 700);
+  // // useEffect(() => {
+  // //   const timer = setTimeout(() => {
+  // //     setLoadingSec(false);
+  // //   }, 0);
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   return (
     <>
-      {loadingSec ? (
+      {/* {loadingSec ? (
         <Loader />
-      ) : (
-        <div>
-          <Nav scrollToProductGrid={scrollToProductGrid} />
-          <HomeComp
-            scrollToProductGrid={scrollToProductGrid}
-            loading={loading}
-          />
-          <ShopByCategories />
-          <div ref={productGridRef}>
-            <ProductGrid />
-          </div>
-          <DealsOfTheMonth scrollToProductGrid={scrollToProductGrid} />
-          <ReviewCarousel />
-
-          <InstagramStories pageType="home" />
-          <Footer />
+      ) : ( */}
+      <div>
+        <Nav scrollToProductGrid={scrollToProductGrid} />
+        <HomeComp scrollToProductGrid={scrollToProductGrid} loading={loading} />
+        <ShopByCategories />
+        <div ref={productGridRef}>
+          <ProductGrid />
         </div>
-      )}
+        <DealsOfTheMonth scrollToProductGrid={scrollToProductGrid} />
+        <ReviewCarousel />
+
+        <InstagramStories pageType="home" />
+        <Footer />
+      </div>
+      {/* )} */}
     </>
   );
 }

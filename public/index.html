@@ -12,13 +12,24 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Krist</title>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Preconnect to critical third-party origins -->
+    <link rel="preconnect" href="https://checkout.razorpay.com" />
+    <link rel="preconnect" href="https://api.razorpay.com" />
+    <link rel="preconnect" href="https://checkout-static-next.razorpay.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <!-- Preload image resources -->
     <link
       rel="preload"
-      href="https://res.cloudinary.com/codemingle/image/upload/v1723848777/bgg1_eycsgb.png"
+      href="https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1723848777/bgg1_eycsgb.png"
       as="image"
+      type="image/png"
     />
     <link rel="preload" href="../src/assets/image.png" as="image" />
+
+    <!-- Defer Razorpay checkout script to avoid blocking rendering -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

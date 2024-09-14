@@ -1,8 +1,13 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { products } from "../ProductJSON/products"; // Update the import path as necessary
 import { useLocation, useNavigate } from "react-router-dom";
-import { wishlistDb } from "../Config/firebase";
-import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { wishlistDb, productData } from "../Config/firebase";
+import {
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import UserContext from "../Context/UserContext";
 import Cookies from "universal-cookie";
@@ -13,29 +18,37 @@ const cookies = new Cookies();
 
 const ProductGrid = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { userDetails, wishlist, fetchWishlistItems } = useContext(UserContext);
   const { productGridRef } = useScroll();
   const wishlistTitles = new Set(wishlist.map((item) => item.title)); // Use Set for fast lookup
   const refToken = cookies.get("auth-token");
   const wishlistRef = collection(wishlistDb, "wishlistDb");
-  const { casualWear, westernWear, kidsWear, ethnicWear } =
-    products[0].categories;
-  const allProducts = [
-    ...casualWear,
-    ...westernWear,
-    ...kidsWear,
-    ...ethnicWear,
-  ];
+
+  const [itemsData, setItemsData] = useState([]);
+  const fetchProductData = async () => {
+    const productRef = collection(productData, "productData");
+    try {
+      const productSnapshot = await getDocs(productRef);
+      const data = productSnapshot.docs.map((doc) => doc.data());
+      setItemsData(data); // Set fetched Firebase data to state
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductData();
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = allProducts.slice(
+  const currentProducts = itemsData.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const totalPages = Math.ceil(allProducts.length / productsPerPage);
+  const totalPages = Math.ceil(itemsData.length / productsPerPage);
   const topRef = useRef(null);
   const gridRef = useRef(null); // Ref for the grid container
 
@@ -86,12 +99,9 @@ const ProductGrid = () => {
       });
       return;
     }
-
     try {
       const productInWishlist = wishlistTitles.has(product.title);
-
       if (productInWishlist) {
-        // Remove from wishlist
         const itemDoc = wishlist.find((item) => item.title === product.title);
         await deleteDoc(doc(wishlistRef, itemDoc.id));
         toast.success("Removed from wishlist", {
@@ -146,7 +156,7 @@ const ProductGrid = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("animate-slideInFromBottom");
-          // Stop observing after animation has been applied
+          // Stop observing after animation has been
           observer.unobserve(entry.target);
         }
       },
@@ -168,10 +178,10 @@ const ProductGrid = () => {
       >
         Our Bestseller
       </p>
-
       <div ref={topRef} className="p-8 font-raleway mx-3">
         <div ref={gridRef} className="grid gap-7 prodGrid ">
-          {currentProducts.map((product, index) => {
+          {currentProducts.map((item, index) => {
+            const product = item.product || item;
             const dummyOriginalPrice = (product.price * 1.3).toFixed(2);
             const discountedPrice = product.price.toFixed(2);
 
@@ -249,56 +259,56 @@ const ProductGrid = () => {
             );
           })}
         </div>
-
-        <div className="flex flex-wrap justify-center mt-8">
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-3 py-2 text-sm md:px-4 md:py-2 bg-gray-300 rounded-md mx-1 hover:bg-gray-400 disabled:bg-gray-200 transition-colors"
-          >
-            Previous
-          </button>
-
-          {pageNumbersToShow().map((page, index) =>
-            page === "..." ? (
-              <span
-                key={index}
-                className="px-3 py-2 text-sm md:px-4 md:py-2 mx-1"
-              >
-                ...
-              </span>
-            ) : (
-              <button
-                key={page}
-                onClick={() => paginate(page)}
-                className={`px-3 py-2 text-sm md:px-4 md:py-2 rounded-md mx-1 ${
-                  currentPage === page
-                    ? "bg-black text-white"
-                    : "bg-gray-300 hover:bg-gray-400"
-                } transition-colors`}
-              >
-                {page}
-              </button>
-            )
-          )}
-
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-3 py-2 text-sm md:px-4 md:py-2 bg-gray-300 rounded-md mx-1 hover:bg-gray-400 disabled:bg-gray-200 transition-colors"
-          >
-            Next
-          </button>
-        </div>
       </div>
 
-      {/* Modal component */}
+      {/* Pagination */}
+      <div className="flex flex-wrap justify-center mt-8">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-2 text-sm md:px-4 md:py-2 bg-gray-300 rounded-md mx-1 hover:bg-gray-400 disabled:bg-gray-200 transition-colors"
+        >
+          Previous
+        </button>
+
+        {pageNumbersToShow().map((page, index) =>
+          page === "..." ? (
+            <span
+              key={index}
+              className="px-3 py-2 text-sm md:px-4 md:py-2 mx-1"
+            >
+              ...
+            </span>
+          ) : (
+            <button
+              key={page}
+              onClick={() => paginate(page)}
+              className={`px-3 py-2 text-sm md:px-4 md:py-2 rounded-md mx-1 ${
+                currentPage === page
+                  ? "bg-black text-white"
+                  : "bg-gray-300 hover:bg-gray-400"
+              } transition-colors`}
+            >
+              {page}
+            </button>
+          )
+        )}
+
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-2 text-sm md:px-4 md:py-2 bg-gray-300 rounded-md mx-1 hover:bg-gray-400 disabled:bg-gray-200 transition-colors"
+        >
+          Next
+        </button>
+      </div>
+
+      {/* Confirmation Modal */}
       {showModal && (
         <ConfModal
           showModal={showModal}
           setShowModal={setShowModal}
-          item={selectedProduct}
-          fetchWishlist={fetchWishlistItems}
+          product={selectedProduct}
         />
       )}
     </>

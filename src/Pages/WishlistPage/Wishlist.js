@@ -57,7 +57,6 @@ function Wishlist() {
     }
   };
 
-  //   fetchWishlist();
   useEffect(() => {
     fetchWishlist();
   }, [userDetails]);

@@ -1,26 +1,22 @@
 import React from "react";
 import { FaInstagram, FaShoppingBag } from "react-icons/fa";
-import user1 from "../assets/Rectangle 3463272.png";
-import user2 from "../assets/Rectangle 3463273.png";
-import user3 from "../assets/bgg.png";
-import user4 from "../assets/$RPSISKI.jpg";
 
 const InstagramStories = ({ pageType }) => {
   const images = [
     {
-      src: user1,
+      src: "https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1726348553/instaBottom/Rectangle_3463272_dnhvdx.png",
       alt: "Image 1",
     },
     {
-      src: user2,
+      src: "https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1726348555/instaBottom/Rectangle_3463273_rbi82v.png",
       alt: "Image 2",
     },
     {
-      src: user3,
+      src: "https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1723848777/bgg1_eycsgb.png",
       alt: "Image 3",
     },
     {
-      src: user4,
+      src: "https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1726348554/instaBottom/RPSISKI_gdmah3.jpg",
       alt: "Image 4",
     },
   ];

@@ -1,32 +1,32 @@
 import React from "react";
-import casualWear from "../assets/menCasual.jpg";
-import westernWear from "../assets/western.jpg";
-import kidsWear from "../assets/kids.jpg";
-import ethnicWear from "../assets/ethenic.jpg";
 
 const categories = [
   {
     title: "Casual Wear",
-    image: casualWear,
+    image:
+      "https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1726266123/extra/menCasual_hkjb1c.jpg",
   },
   {
     title: "Western Wear",
-    image: westernWear,
+    image:
+      "https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/extra/western_ay6apf.jpg",
   },
   {
     title: "Ethnic Wear",
-    image: ethnicWear,
+    image:
+      "https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1726266178/extra/ethenic_e5hynd.jpg",
   },
   {
     title: "Kids Wear",
-    image: kidsWear,
+    image:
+      "https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1726266179/extra/kids_epbfla.jpg",
   },
 ];
 
 const ShopByCategories = () => {
   return (
     <div className="p-8 font-raleway">
-      <h1 className="text-3xl font-bold mb-8 ">Shop by Categories</h1>
+      <h1 className="text-3xl font-bold mb-8">Shop by Categories</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mx-3">
         {categories.map((category, index) => (
           <div
@@ -36,6 +36,7 @@ const ShopByCategories = () => {
             <img
               src={category.image}
               alt={category.title}
+              loading="lazy"
               className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"></div>
@@ -45,40 +46,6 @@ const ShopByCategories = () => {
           </div>
         ))}
       </div>
-      {/* <div className="flex justify-end mt-4 space-x-2">
-        <button className="w-10 h-10 bg-white border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-200">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
-        <button className="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center hover:bg-gray-800">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
-      </div> */}
     </div>
   );
 };

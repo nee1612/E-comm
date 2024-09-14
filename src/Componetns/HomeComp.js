@@ -1,6 +1,4 @@
-import React from "react";
-import { useEffect, useRef } from "react";
-import backgrounImg3 from "../assets/bgg.png";
+import React, { useEffect, useRef } from "react";
 
 function HomeComp({ scrollToProductGrid, loading }) {
   const textRef = useRef(null);
@@ -12,20 +10,24 @@ function HomeComp({ scrollToProductGrid, loading }) {
       textRef.current.classList.add("animate-fadeInFromRight");
       imageRef.current.classList.add("animate-fadeInFromLeft");
     }
-  }, [loading]);
+  }, []);
+
   return (
-    <div className="flex flex-col items-center   bg-gray-200 overflow-hidden">
-      <div className="relative w-full max-w-6xl mx-auto  py-8">
+    <div className="flex flex-col items-center bg-gray-200 overflow-hidden">
+      <div className="relative w-full max-w-6xl mx-auto py-8">
         {/* Background Section */}
-        <div className="relative w-full mb-8 ">
-          <div className="absolute inset-0  md:-inset-10 md:left-4 md:-bottom-10  bg-cover bg-center ">
+        <div className="relative w-full mb-8">
+          <div className="absolute inset-0 md:-inset-10 md:left-4 md:-bottom-10 bg-cover bg-center">
             <h1
-              className="pseudoText  text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-[#eff0f3]
-             absolute bottom-8 left-8 md:bottom-14 md:left-32 animate-slideInFromTop"
+              className="pseudoText text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-[#eff0f3]
+              absolute bottom-8 left-8 md:bottom-14 md:left-32 animate-slideInFromTop"
             >
               BESTSELLER
             </h1>
-            <h1 className="pseudoText2 slideInFromBottom text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-gray-50 opacity-50 absolute bottom-8 left-8 md:bottom-20 md:left-32">
+            <h1
+              className="pseudoText2 slideInFromBottom text-[5rem] md:text-[8rem] lg:text-[13rem] font-extrabold text-gray-50 opacity-50
+              absolute bottom-8 left-8 md:bottom-20 md:left-32"
+            >
               FASHION
             </h1>
           </div>
@@ -56,11 +58,18 @@ function HomeComp({ scrollToProductGrid, loading }) {
               className="homeBg relative w-full md:w-[50%] mt-8 md:mt-0 opacity-1"
             >
               <img
-                src="https://res.cloudinary.com/codemingle/image/upload/v1723848777/bgg1_eycsgb.png"
-                // src={backgrounImg3}
-                alt="https://res.cloudinary.com/codemingle/image/upload/v1723848777/bgg1_eycsgb.png"
-                className="object-cover w-full h-auto"
+                src="https://res.cloudinary.com/codemingle/image/upload/w_auto,q_auto,f_auto/v1723848777/bgg1_eycsgb.png"
+                alt="Fashion background image"
+                className="object-cover"
+                loading="lazy"
+                width="1200"
+                height="800"
+                srcSet="
+    https://res.cloudinary.com/codemingle/image/upload/w_600,q_auto,f_auto/v1723848777/bgg1_eycsgb.png 600w,
+    https://res.cloudinary.com/codemingle/image/upload/w_1200,q_auto,f_auto/v1723848777/bgg1_eycsgb.png 1200w
+  "
               />
+
               <div className="pseuElemFrame absolute top-4 right-[4.5rem] p-2 border-gray-400 opacity-60 border-[8px] transform rotate-6 pointer-events-none"></div>
             </div>
           </div>
