@@ -39,7 +39,7 @@ function LoginPage() {
       const googleCredential = GoogleAuthProvider.credentialFromResult(res);
       const existingUserMethods = await fetchSignInMethodsForEmail(
         auth,
-        "neerajjareen36251@gmail.com"
+        googleUser.email
       );
 
       console.log(existingUserMethods, existingUserMethods.length);

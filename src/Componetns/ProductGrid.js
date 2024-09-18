@@ -139,6 +139,16 @@ const ProductGrid = () => {
 
   const addItemToCart = (e, product, isFromWishlist = false) => {
     e.stopPropagation();
+    const token = cookies.get("auth-token");
+
+    if (!token) {
+      toast.error("Please login first", {
+        position: "top-center",
+        className: "custom-toast-error",
+        bodyClassName: "customToast",
+      });
+      return;
+    }
     setSelectedProduct({
       title: product.title,
       price: product.price,
@@ -308,7 +318,8 @@ const ProductGrid = () => {
         <ConfModal
           showModal={showModal}
           setShowModal={setShowModal}
-          product={selectedProduct}
+          item={selectedProduct}
+          fetchWishlist={fetchWishlistItems}
         />
       )}
     </>
