@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { wishlistDb, productData } from "../Config/firebase";
 import {
   collection,
@@ -12,7 +12,8 @@ import { toast } from "react-toastify";
 import UserContext from "../Context/UserContext";
 import Cookies from "universal-cookie";
 import { useScroll } from "../Context/ScrollContext";
-import ConfModal from "./ConfModal"; // Import ConfModal
+import ConfModal from "./ConfModal";
+import Loader from "../Componetns/Loader";
 
 const cookies = new Cookies();
 
@@ -23,14 +24,16 @@ const ProductGrid = () => {
   const wishlistTitles = new Set(wishlist.map((item) => item.title)); // Use Set for fast lookup
   const refToken = cookies.get("auth-token");
   const wishlistRef = collection(wishlistDb, "wishlistDb");
-
+  const [loading, setLoading] = useState(false);
   const [itemsData, setItemsData] = useState([]);
   const fetchProductData = async () => {
+    setLoading(true);
     const productRef = collection(productData, "productData");
     try {
       const productSnapshot = await getDocs(productRef);
       const data = productSnapshot.docs.map((doc) => doc.data());
       setItemsData(data); // Set fetched Firebase data to state
+      setLoading(false);
     } catch (err) {
       console.error(err);
     }
@@ -172,144 +175,158 @@ const ProductGrid = () => {
 
   return (
     <>
-      <p
-        className="flex justify-center text-3xl font-bold font-raleway"
-        ref={productGridRef}
-      >
-        Our Bestseller
-      </p>
-      <div ref={topRef} className="p-8 font-raleway mx-3">
-        <div ref={gridRef} className="grid gap-7 prodGrid ">
-          {currentProducts.map((item, index) => {
-            const product = item.product || item;
-            const dummyOriginalPrice = (product.price * 1.3).toFixed(2);
-            const discountedPrice = product.price.toFixed(2);
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <p
+            className="flex justify-center text-3xl font-bold font-raleway"
+            ref={productGridRef}
+          >
+            Our Bestseller
+          </p>
+          <div ref={topRef} className="p-8 font-raleway mx-3">
+            <div ref={gridRef} className="grid gap-7 prodGrid ">
+              {currentProducts.map((item, index) => {
+                const product = item.product || item;
+                const dummyOriginalPrice = (product.price * 1.3).toFixed(2);
+                const discountedPrice = product.price.toFixed(2);
 
-            return (
-              <div
-                onClick={(e) => navigateToProductPage(e, product)}
-                key={index}
-                className="relative p-4 rounded-md bg-white shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className="relative group">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-[16rem] object-cover mb-4 rounded-md"
-                  />
-                  {refToken ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill={wishlistTitles.has(product.title) ? "red" : "none"}
-                      stroke={
-                        wishlistTitles.has(product.title) ? "red" : "#F5EDED"
-                      }
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-heart absolute top-2 right-2 text-xl opacity-100 transition-opacity duration-300 cursor-pointer"
-                      onClick={(e) => handleWishlistClick(e, product)}
+                return (
+                  <div
+                    onClick={(e) => navigateToProductPage(e, product)}
+                    key={index}
+                    className="relative p-4 rounded-md bg-white shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+                  >
+                    <div className="relative group">
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        className="w-full h-[16rem] object-cover mb-4 rounded-md"
+                      />
+                      {refToken ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill={
+                            wishlistTitles.has(product.title) ? "red" : "none"
+                          }
+                          stroke={
+                            wishlistTitles.has(product.title)
+                              ? "red"
+                              : "#F5EDED"
+                          }
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="lucide lucide-heart absolute top-2 right-2 text-xl opacity-100 transition-opacity duration-300 cursor-pointer"
+                          onClick={(e) => handleWishlistClick(e, product)}
+                        >
+                          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#F6F5F5"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="lucide lucide-heart absolute top-2 right-2 text-xl opacity-100 transition-opacity duration-300 cursor-pointer"
+                          onClick={(e) => handleWishlistClick(e, product)}
+                        >
+                          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                        </svg>
+                      )}
+                    </div>
+                    <h2 className="text-lg font-semibold">{product.title}</h2>
+                    <p className="text-gray-500">
+                      {product.description &&
+                        product.description.substring(0, 40)}
+                      ...
+                    </p>
+                    <p className="bg-green-100 text-green-700 text-sm inline-block mt-2 px-2 rounded-md">
+                      {product.label}
+                    </p>
+                    <div className="flex justify-between items-center mt-2">
+                      <div className="text-base font-semibold font-radio-canada">
+                        <span className="text-black mr-2">
+                          ${discountedPrice}
+                        </span>
+                        <span className="text-gray-400 line-through mr-2">
+                          ${dummyOriginalPrice}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={(e) => addItemToCart(e, product)}
+                      className="w-full mt-4 bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800"
                     >
-                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#F6F5F5"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-heart absolute top-2 right-2 text-xl opacity-100 transition-opacity duration-300 cursor-pointer"
-                      onClick={(e) => handleWishlistClick(e, product)}
-                    >
-                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                    </svg>
-                  )}
-                </div>
-                <h2 className="text-lg font-semibold">{product.title}</h2>
-                <p className="text-gray-500">
-                  {product.description && product.description.substring(0, 40)}
-                  ...
-                </p>
-                <p className="bg-green-100 text-green-700 text-sm inline-block mt-2 px-2 rounded-md">
-                  {product.label}
-                </p>
-                <div className="flex justify-between items-center mt-2">
-                  <div className="text-base font-semibold font-radio-canada">
-                    <span className="text-black mr-2">${discountedPrice}</span>
-                    <span className="text-gray-400 line-through mr-2">
-                      ${dummyOriginalPrice}
-                    </span>
+                      Add to Cart
+                    </button>
                   </div>
-                </div>
-                <button
-                  onClick={(e) => addItemToCart(e, product)}
-                  className="w-full mt-4 bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+                );
+              })}
+            </div>
+          </div>
 
-      {/* Pagination */}
-      <div className="flex flex-wrap justify-center mt-8">
-        <button
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-3 py-2 text-sm md:px-4 md:py-2 bg-gray-300 rounded-md mx-1 hover:bg-gray-400 disabled:bg-gray-200 transition-colors"
-        >
-          Previous
-        </button>
-
-        {pageNumbersToShow().map((page, index) =>
-          page === "..." ? (
-            <span
-              key={index}
-              className="px-3 py-2 text-sm md:px-4 md:py-2 mx-1"
-            >
-              ...
-            </span>
-          ) : (
+          {/* Pagination */}
+          <div className="flex flex-wrap justify-center mt-8">
             <button
-              key={page}
-              onClick={() => paginate(page)}
-              className={`px-3 py-2 text-sm md:px-4 md:py-2 rounded-md mx-1 ${
-                currentPage === page
-                  ? "bg-black text-white"
-                  : "bg-gray-300 hover:bg-gray-400"
-              } transition-colors`}
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-3 py-2 text-sm md:px-4 md:py-2 bg-gray-300 rounded-md mx-1 hover:bg-gray-400 disabled:bg-gray-200 transition-colors"
             >
-              {page}
+              Previous
             </button>
-          )
-        )}
 
-        <button
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-3 py-2 text-sm md:px-4 md:py-2 bg-gray-300 rounded-md mx-1 hover:bg-gray-400 disabled:bg-gray-200 transition-colors"
-        >
-          Next
-        </button>
-      </div>
+            {pageNumbersToShow().map((page, index) =>
+              page === "..." ? (
+                <span
+                  key={index}
+                  className="px-3 py-2 text-sm md:px-4 md:py-2 mx-1"
+                >
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={page}
+                  onClick={() => paginate(page)}
+                  className={`px-3 py-2 text-sm md:px-4 md:py-2 rounded-md mx-1 ${
+                    currentPage === page
+                      ? "bg-black text-white"
+                      : "bg-gray-300 hover:bg-gray-400"
+                  } transition-colors`}
+                >
+                  {page}
+                </button>
+              )
+            )}
 
-      {/* Confirmation Modal */}
-      {showModal && (
-        <ConfModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          product={selectedProduct}
-        />
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-3 py-2 text-sm md:px-4 md:py-2 bg-gray-300 rounded-md mx-1 hover:bg-gray-400 disabled:bg-gray-200 transition-colors"
+            >
+              Next
+            </button>
+          </div>
+
+          {/* Confirmation Modal */}
+          {showModal && (
+            <ConfModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              item={selectedProduct}
+              fetchWishlist={fetchWishlistItems}
+            />
+          )}
+        </>
       )}
     </>
   );

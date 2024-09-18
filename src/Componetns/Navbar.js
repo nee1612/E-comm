@@ -3,26 +3,21 @@ import Logo from "../assets/image.png";
 import { signOut } from "firebase/auth";
 import { auth } from "../Config/firebase";
 import { FaBars } from "react-icons/fa";
-import Cookies from "universal-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../Context/UserContext";
 import Sidebar from "./Sidebar";
 import { useScroll } from "../Context/ScrollContext";
-const cookies = new Cookies();
 
 function Nav() {
-  const { cartList, clearCart, wishlist, clearWishlist } =
+  const { cartList, clearCart, wishlist, clearWishlist, userDetails } =
     useContext(UserContext);
   const { scrollToProductGrid } = useScroll();
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  const refToken = cookies.get("auth-token");
-
   const logOut = async () => {
     try {
       await signOut(auth);
-      cookies.remove("auth-token");
       clearCart();
       clearWishlist();
       navigate("/");
@@ -38,6 +33,7 @@ function Nav() {
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
+
   const handleShopClick = () => {
     scrollToProductGrid();
   };
@@ -130,7 +126,7 @@ function Nav() {
             </p>
           )}
         </Link>
-        {refToken ? (
+        {userDetails && userDetails.emailVerified ? (
           <button
             onClick={logOut}
             className="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800"
@@ -164,14 +160,10 @@ function Nav() {
             <circle cx="19" cy="21" r="1" />
             <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
           </svg>
-          {refToken && (
-            <>
-              {cartList.length > 0 && (
-                <p className="absolute w-3.5 h-3.5 text-[0.55rem] text-center -top-1 -right-2 rounded-full bg-red-600 font-semibold text-white">
-                  {cartList.length}
-                </p>
-              )}
-            </>
+          {userDetails && cartList.length > 0 && (
+            <p className="absolute w-3.5 h-3.5 text-[0.55rem] text-center -top-1 -right-2 rounded-full bg-red-600 font-semibold text-white">
+              {cartList.length}
+            </p>
           )}
         </Link>
         <FaBars size={25} onClick={toggleSidebar} />
@@ -179,7 +171,7 @@ function Nav() {
       <Sidebar
         isOpen={isSidebarOpen}
         closeSidebar={closeSidebar}
-        refToken={refToken}
+        userDetails={userDetails}
         logOut={logOut}
       />
     </nav>

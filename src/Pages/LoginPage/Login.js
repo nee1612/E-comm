@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LoginPic from "../../assets/Rectangle 3463273.png";
 import Logo from "./../../assets/image.png";
 import "../../customToast.css";
@@ -15,6 +15,8 @@ import {
 } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import UserContext from "../../Context/UserContext";
+
 const cookies = new Cookies();
 
 function LoginPage() {
@@ -23,7 +25,10 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const { userDetails, setUserDetails } = useContext(UserContext); // access context
+  console.log(userDetails);
 
+  // Function to handle Google sign-in
   const HandleSingInWithGoogle = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -39,7 +44,7 @@ function LoginPage() {
       const googleCredential = GoogleAuthProvider.credentialFromResult(res);
       const existingUserMethods = await fetchSignInMethodsForEmail(
         auth,
-        "neerajjareen36251@gmail.com"
+        googleUser.email
       );
 
       console.log(existingUserMethods, existingUserMethods.length);
@@ -65,7 +70,7 @@ function LoginPage() {
       }
 
       setLoading(false);
-      cookies.set("auth-token", res.user.refreshToken);
+      // cookies.set("auth-token", res.user.refreshToken);
       toast.success("Login Success");
       navigate("/");
     } catch (error) {
@@ -74,13 +79,7 @@ function LoginPage() {
     }
   };
 
-  useEffect(() => {
-    const token = cookies.get("auth-token");
-    if (token) {
-      navigate("/");
-    }
-  }, [navigate]);
-
+  // Function to handle email and password sign-in
   const signIn = async (e) => {
     e.preventDefault();
     setLoadingGoogle(true);
@@ -95,7 +94,7 @@ function LoginPage() {
         return;
       }
       console.log("result", result.user.refreshToken);
-      cookies.set("auth-token", result.user.refreshToken);
+      // cookies.set("auth-token", result.user.refreshToken);
       toast.success("Login Success", {
         position: "top-center",
         className: "custom-toast-success",
@@ -112,7 +111,12 @@ function LoginPage() {
       });
     }
   };
-
+  // Automatically redirect if the user is logged in
+  useEffect(() => {
+    if (userDetails) {
+      navigate("/");
+    }
+  }, [userDetails, navigate]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);

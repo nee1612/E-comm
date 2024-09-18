@@ -7,7 +7,7 @@ import { userCartItems, wishlistDb } from "../Config/firebase";
 import UserContext from "../Context/UserContext";
 
 const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
-  const { setCartList, setWishlistSec } = useContext(UserContext);
+  const { setCartList, setWishlistSec, userDetails } = useContext(UserContext);
   const [selectedSize, setSelectedSize] = useState(null);
   const [wishlist, setWishlist] = useState([]);
   const dummyOriginalPrice = (item.price * 1.3).toFixed(2);
@@ -19,14 +19,17 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
   const addToCart = async (item) => {
     setLoading(true);
+
     // Check if a size is selected
     if (!selectedSize) {
       toast.error("Please select a size");
       setLoading(false); // Ensure loading state is reset
       return;
     }
+
     const cartItem = {
       title: item.title,
       quantity: quantity,
@@ -34,22 +37,35 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
       label: item.label,
       price: item.price,
       image: item.image,
-      userId: item.userId,
+      userId: item.userId || "guest", // Use "guest" as a userId for non-logged-in users
     };
 
     try {
-      await addDoc(cartRef, cartItem);
-      toast.success("Item Added to cart");
+      // Check if the user is logged in (replace this with actual user authentication logic)
+      const isUserLoggedIn = item.userId; // Assuming userId exists only for logged-in users
+      console.log("isUserLoggedIn", userDetails);
+      if (isUserLoggedIn) {
+        // User is logged in, add item to Firebase
+        await addDoc(cartRef, cartItem);
+        toast.success("Item Added to cart");
 
-      if (item.isFromWishlist) {
-        await deleteDoc(doc(wishlistRef, item.id));
-        const updatedWishlist = wishlist.filter(
-          (wishlistItem) => wishlistItem.id !== item.id
-        );
-        setWishlistSec(updatedWishlist);
-        fetchWishlist();
+        if (item.isFromWishlist) {
+          await deleteDoc(doc(wishlistRef, item.id));
+          const updatedWishlist = wishlist.filter(
+            (wishlistItem) => wishlistItem.id !== item.id
+          );
+          setWishlistSec(updatedWishlist);
+          fetchWishlist();
+        }
+        setCartList((prev) => [...prev, cartItem]);
+      } else {
+        // User not logged in, store cart items in local storage
+        const existingCartItems =
+          JSON.parse(localStorage.getItem("guestCart")) || [];
+        existingCartItems.push(cartItem);
+        localStorage.setItem("guestCart", JSON.stringify(existingCartItems));
+        toast.success("Item Added to local storage cart");
       }
-      setCartList((prev) => [...prev, cartItem]);
     } catch (err) {
       console.error(err);
       toast.error("Error adding item to cart", {
@@ -58,7 +74,6 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
         bodyClassName: "customToast",
       });
     } finally {
-      // Finalize loading state and close modal
       setLoading(false);
       setShowModal(false);
       window.scrollTo({ top: 0, behavior: "smooth" });

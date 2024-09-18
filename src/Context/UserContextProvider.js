@@ -5,7 +5,7 @@ import { collection, getDocs, query } from "firebase/firestore";
 
 const UserContextProvider = ({ children }) => {
   const wishlistRef = collection(wishlistDb, "wishlistDb");
-  const [userDetails, setUserDetails] = useState([]);
+  const [userDetails, setUserDetails] = useState(null); // Changed initial state to null
   const [discount, setDiscount] = useState(0);
   const [discountCode, setDiscountCode] = useState("");
   const [loading, setLoading] = useState(false);
@@ -65,16 +65,20 @@ const UserContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        fetchCartItems();
         setUserDetails(user);
+        fetchCartItems();
         fetchWishlistItems();
+      } else {
+        setUserDetails(null); // Set userDetails to null if no user
+        setCartList([]);
+        setWishlistSec([]);
       }
-      setLoading(false);
     });
-  }, [userCartItems, userDetails.uid]);
+
+    return () => unsubscribe(); // Clean up subscription on unmount
+  }, []);
 
   return (
     <UserContext.Provider
