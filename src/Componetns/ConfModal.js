@@ -24,7 +24,7 @@ const ConfModal = ({ showModal, setShowModal, item, fetchWishlist }) => {
     // Check if a size is selected
     if (!selectedSize) {
       toast.error("Please select a size");
-      setLoading(false); // Ensure loading state is reset
+      setLoading(false);
       return;
     }
     const cartItem = {
